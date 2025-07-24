@@ -12,7 +12,7 @@ export class RoomBookingsService {
     return await this.model.create();
   }
 
-  async indAll() {
+  async findAll() {
     return await this.model.find();
   }
 
@@ -20,11 +20,11 @@ export class RoomBookingsService {
     return await this.model.findById;
   }
 
-  update(id: number, updateRoomBookingDto: UpdateRoomBookingDto) {
-    return `This action updates a #${id} roomBooking`;
-  }
+  // update(id: string, updateRoomBookingDto: UpdateRoomBookingDto) {
+  //   return `This action updates a #${id} roomBooking`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} roomBooking`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} roomBooking`;
+  // }
 }

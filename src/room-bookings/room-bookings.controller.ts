@@ -19,16 +19,16 @@ export class RoomBookingsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.roomBookingsService.findOne(+id);
+    return this.roomBookingsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoomBookingDto: UpdateRoomBookingDto) {
-    return this.roomBookingsService.update(+id, updateRoomBookingDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateRoomBookingDto: UpdateRoomBookingDto) {
+  //   return this.roomBookingsService.update(id, updateRoomBookingDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roomBookingsService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.roomBookingsService.remove(id);
+  // }
 }
