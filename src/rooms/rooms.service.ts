@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Rooms, RoomsDocument } from './schemas/rooms.schemas';
+import { Room, RoomDocument } from './schemas/room.schema';
 import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class RoomsService {
-  constructor(@InjectModel(Rooms.name) private model:Model<RoomsDocument>){}
- async create(createRoomDto: CreateRoomDto) {
+   constructor(@InjectModel(Room.name) private model: Model<RoomDocument>) {}
+
+  async create(createRoomDto: CreateRoomDto) {
     return await this.model.create(createRoomDto);
   }
 
@@ -21,10 +22,10 @@ export class RoomsService {
   }
 
   async update(id: string, updateRoomDto: UpdateRoomDto) {
-    return await this.model.findByIdAndUpdate(new Types.ObjectId(id),updateRoomDto,{new:true});
+    return await this.model.findByIdAndUpdate(new Types.ObjectId(id),updateRoomDto,{new :true});
   }
 
   async remove(id: string) {
-    return await this.model.findByIdAndDelete(id);
+    return await this.model.findByIdAndDelete();
   }
 }

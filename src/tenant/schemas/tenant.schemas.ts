@@ -1,3 +1,6 @@
+//  Hotel Owners
+
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -8,20 +11,24 @@ export class Tenant {
   @Prop({ required: true, unique: true }) 
   name: string;
 
-  @Prop({ required: true, unique: true }) 
-  slug: string;
-
   @Prop() 
   address: string;
 
   @Prop() 
-  contactEmail: string;
+  companyEmail: string;
 
   @Prop() 
   contactPhone: string;
 
   @Prop() 
-  ownerId: string; // Optional: links to User
+  ownerId: string;
+
+  @Prop({ enum: ['basic', 'pro', 'enterprise'], default: 'basic' })
+  subscriptionPlan: 'basic' | 'pro' | 'enterprise';
+
+  @Prop({ default: true })
+  isActive: boolean;
+
 }
 
 export const TenantSchema = SchemaFactory.createForClass(Tenant);

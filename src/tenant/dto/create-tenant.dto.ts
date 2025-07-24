@@ -4,8 +4,6 @@ import { IsEmail, IsOptional, IsString } from 'class-validator';
 export class CreateTenantDto {
   @ApiProperty()
   @IsString() name: string;
-  @IsString() slug: string;
-
 
   @ApiProperty()
   @IsOptional()
@@ -15,9 +13,9 @@ export class CreateTenantDto {
   @ApiProperty()
   @IsOptional()
   @IsEmail()
-  contactEmail?: string;
+  companyEmail?: string;
 
-   @ApiProperty()
+  @ApiProperty()
   @IsOptional()
   @IsString()
   contactPhone?: string;
