@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TenantModule } from './tenant/tenant.module';
+import { RoomsModule } from './rooms/rooms.module';
+import { RoomBookingsModule } from './room-bookings/room-bookings.module';
 
 @Module({
   imports: [
@@ -16,7 +18,9 @@ import { TenantModule } from './tenant/tenant.module';
     MongooseModule.forRoot(process.env.DB_URL!),
     AuthModule,
     UsersModule,
-    TenantModule
+    TenantModule,
+    RoomsModule,
+    RoomBookingsModule
     ],
   controllers: [AppController],
   providers: [AppService],

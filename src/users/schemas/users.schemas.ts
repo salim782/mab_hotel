@@ -15,9 +15,8 @@ export type UsersDocument = Users & Document
 
 
 
-
-    @Prop()
-    phone: string;
+    @Prop({type:Number})
+    phone: number;
 
     @Prop({ enum: ['user','owner', 'manager', 'receptionist', 'chef', 'staff'], default: 'user' })
     role: string;
