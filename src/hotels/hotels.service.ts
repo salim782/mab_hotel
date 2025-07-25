@@ -9,7 +9,6 @@ import { Model, Types } from 'mongoose';
 export class HotelsService {
   constructor(@InjectModel(Hotel.name)private model:Model<HotelDocument>){}
 
-
   async create(createHotelDto: CreateHotelDto) {
     return await this.model.create(createHotelDto);
   }

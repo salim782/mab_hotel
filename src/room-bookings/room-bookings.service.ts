@@ -8,9 +8,9 @@ import { Model, Types } from 'mongoose';
 @Injectable()
 export class RoomBookingsService {
   constructor(@InjectModel(RoomBooking.name)private model:Model<RoomBookingDocument>){}
-  
+
   async create(createRoomBookingDto: CreateRoomBookingDto) {
-    return await this.model.create();
+    return await this.model.create(createRoomBookingDto);
   }
 
   async findAll() {

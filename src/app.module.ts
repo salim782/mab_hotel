@@ -9,6 +9,7 @@ import { TenantModule } from './tenant/tenant.module';
 import { HotelsModule } from './hotels/hotels.module';
 import { RoomBookingsModule } from './room-bookings/room-bookings.module';
 import { RoomsModule } from './rooms/rooms.module';
+import { BillingModule } from './billing/billing.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { RoomsModule } from './rooms/rooms.module';
     TenantModule,
     RoomsModule,
     HotelsModule,
-    RoomBookingsModule
+    RoomBookingsModule,
+    BillingModule
     ],
   controllers: [AppController],
   providers: [AppService],

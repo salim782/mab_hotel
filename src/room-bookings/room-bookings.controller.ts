@@ -31,4 +31,5 @@ export class RoomBookingsController {
   remove(@Param('id') id: string) {
     return this.roomBookingsService.remove(id);
   }
+  
 }
