@@ -10,6 +10,9 @@ import { HotelsModule } from './hotels/hotels.module';
 import { RoomBookingsModule } from './room-bookings/room-bookings.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { BillingModule } from './billing/billing.module';
+import { HousekeepingModule } from './housekeeping/housekeeping.module';
+import { RestaurantModule } from './restaurant/restaurant.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -24,9 +27,13 @@ import { BillingModule } from './billing/billing.module';
     RoomsModule,
     HotelsModule,
     RoomBookingsModule,
-    BillingModule
+    BillingModule,
+    HousekeepingModule,
+    RestaurantModule,
+    NotificationsModule
     ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
+

@@ -13,9 +13,6 @@ export type UsersDocument = Users & Document
     @Prop({required:true,type:String})
     password: string
 
-
-
-
     @Prop()
     phone: string;
 
@@ -24,5 +21,19 @@ export type UsersDocument = Users & Document
 
     @Prop({ default: true })
     isActive: boolean;
+
+    //  @Prop()
+    // resetToken?: string;
+
+   
+
+    @Prop()
+    otp?: string;
+
+    @Prop()
+    otpExpires?: Date;
+
+
+
  }
  export const usersSchema = SchemaFactory.createForClass(Users)

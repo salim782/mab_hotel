@@ -9,4 +9,7 @@ export class SignUpDto {
 
     @ApiProperty({type:String})
     password: string;
+
+    @ApiProperty({ type: String })
+  confirmPassword: string;
 }
