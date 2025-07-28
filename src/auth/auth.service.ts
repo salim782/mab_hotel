@@ -16,7 +16,7 @@ export class AuthService {
     private userModel: Model<Users>,
     private jwtService: JwtService
   ) { }
-// 'This action adds a new auth'
+
   async SignUp(signUpdto: SignUpDto){
     const { name, email, password,confirmPassword} = signUpdto;
     if (password !== confirmPassword) {
@@ -61,8 +61,7 @@ export class AuthService {
      };
   }
 
-  
-  async forgotPassword(dto: ForgotPasswordDto) {
+   async forgotPassword(dto: ForgotPasswordDto) {
   if (!dto || !dto.email) {
     throw new BadRequestException('Email is required');
   }
@@ -70,35 +69,37 @@ export class AuthService {
   if (!user) {
     return { message: 'If your email is registered, an OTP has been sent.' };
   }
-  // 🔢 Generate OTP (6 digit)
+  //otp
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 mins
   user.otp = otp;
   user.otpExpires = expiry;
   await user.save();
-  // ✅ In real app: Send OTP on email here
+  //send otp on email
   return {
     message: 'OTP has been sent to your registered email.',
-    otp // Only for testing – remove in production
+    otp
   };
 }
 
 
-async verifyOtp(dto: { email: string; otp: string }) {
-  console.log('Verifying OTP for:', dto);
-  const user = await this.userModel.findOne({
-    email: dto.email,
-    otp: dto.otp,
-    otpExpires: { $gt: new Date() }
-  });
-  if (!user) {
-    throw new BadRequestException('Invalid or expired OTP');
+ async verifyOtp(otp: string) {
+    const user = await this.userModel.findOne({
+      otp,
+      otpExpires: { $gt: new Date() }
+    });
+
+    if (!user) {
+      throw new BadRequestException('Invalid or expired OTP');
+    }
+
+    return {
+      message: 'OTP verified successfully',
+      userId: user._id 
+    };
   }
-  return { message: 'OTP verified successfully. You can now reset your password.' };
-}
 
-
-async resetPassword(dto: { email: string; otp: string; newPassword: string }) {
+  async resetPassword(dto: { email: string; otp: string; newPassword: string }) {
   const user = await this.userModel.findOne({
     email: dto.email,
     otp: dto.otp,

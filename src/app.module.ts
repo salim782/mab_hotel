@@ -13,6 +13,7 @@ import { BillingModule } from './billing/billing.module';
 import { HousekeepingModule } from './housekeeping/housekeeping.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { InventoryModule } from './inventory/inventory.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { NotificationsModule } from './notifications/notifications.module';
     BillingModule,
     HousekeepingModule,
     RestaurantModule,
-    NotificationsModule
+    NotificationsModule,
+    InventoryModule
     ],
   controllers: [AppController],
   providers: [AppService],
