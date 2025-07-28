@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
@@ -6,6 +6,8 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ApiBody } from '@nestjs/swagger';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
+import { AuthGuard } from '@nestjs/passport';
+
 
 @Controller('auth')
 export class AuthController {
@@ -28,20 +30,17 @@ export class AuthController {
   }
 
   @Post('verify-otp')
-@ApiBody({ type: VerifyOtpDto }) 
-verifyOtp(@Body() dto: VerifyOtpDto) {
+  @ApiBody({ type: VerifyOtpDto }) 
+  verifyOtp(@Body() dto: VerifyOtpDto) {
   return this.authService.verifyOtp(dto.otp);
 }
 
-//  @Post('reset-password')
-// resetPassword(@Body('newPassword') newPassword: string) {
-//   return this.authService.resetPasswordOnlyNew({ newPassword });
-// }
-
-@Post('reset-password')
-@ApiBody({ type: ResetPasswordDto })
-resetPassword(@Body() dto: ResetPasswordDto) {
-  return this.authService.resetPassword(dto);
+@Put('reset-password')
+@UseGuards(AuthGuard('jwt'))
+resetPassword(@Req() req, @Body() dto: ResetPasswordDto) {
+  return this.authService.resetPassword(req.user.id, dto);
 }
+
+
 
 }

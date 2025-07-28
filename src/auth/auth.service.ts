@@ -7,6 +7,8 @@ import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from 'src/users/schemas/users.schemas';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+
 
 
 @Injectable()
@@ -33,7 +35,7 @@ export class AuthService {
       password: hashedPassword
     });
     const payload = { id: user._id,name: user.name ,email: user.email,password:user.password };
-    const token = this.jwtService.sign({payload})
+    const token = this.jwtService.sign(payload)
     return { 
       message: 'User registered successfully',
       user:payload,
@@ -53,7 +55,7 @@ export class AuthService {
       throw new UnauthorizedException('invalid email or password')
     }
     const payload = { id: user._id, name: user.name , email: user.email };
-    const token = this.jwtService.sign({payload})
+    const token = this.jwtService.sign(payload)
     return { 
       message: 'Login successful',
       user: payload,
@@ -99,22 +101,28 @@ export class AuthService {
     };
   }
 
-  async resetPassword(dto: { email: string; otp: string; newPassword: string }) {
-  const user = await this.userModel.findOne({
-    email: dto.email,
-    otp: dto.otp,
-    otpExpires: { $gt: new Date() }
-  });
-  if (!user) {
-    throw new NotFoundException('Invalid OTP or expired');
+
+  async resetPassword(userId: string, dto: ResetPasswordDto) {
+  const { newPassword, confirmPassword } = dto;
+
+  if (newPassword !== confirmPassword) {
+    throw new BadRequestException('Passwords do not match');
   }
-  const hashedPassword = await bcrypt.hash(dto.newPassword, 10);
+
+  const user = await this.userModel.findById(userId);
+  if (!user) {
+    throw new NotFoundException('User not found');
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
   user.password = hashedPassword;
-  user.otp = undefined;
-  user.otpExpires = undefined;
   await user.save();
-  return { message: 'Password has been reset successfully' };
+
+  return {
+    message: 'Password reset successfully',
+  };
 }
+
 
 }
 
