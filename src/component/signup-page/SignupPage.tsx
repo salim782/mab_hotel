@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Typography, Card, message } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -8,32 +8,34 @@ import { useRouter } from 'next/navigation';
 const { Title, Text } = Typography;
 
 const SignupPage = () => {
+  const [loading, setLoading]=useState(false)
   const router = useRouter();
   const onFinish = async (values: any) => {
+    setLoading(true)
     try {
-      const response = await fetch('http://192.168.112.164:3000/auth/login', {
+      const response = await fetch('http://192.168.137.1:3000/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
       });
+      const data = await response.json();
+      console.log('signup successful:', data);
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Login successful:', data);
-        message.success('Login successful!');
+        message.success('Create Account successful!');
         router.push('/login');
       } else {
-        const errorData = await response.json();
-        message.error(errorData.message || 'Login failed!');
+        message.error(data.message || 'signup failed!');
       }
     } catch (error) {
       console.error('Fetch error:', error);
       message.error('Something went wrong!');
+    }finally{
+      setLoading(false)
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -91,13 +93,7 @@ const SignupPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              // onClick={handleClick}
-              block
-            >
+            <Button type="primary" htmlType="submit" size="large" block loading={loading}>
               Sign Up
             </Button>
           </Form.Item>
@@ -105,7 +101,7 @@ const SignupPage = () => {
           <div className="text-center">
             <Text>
               Already have an account?{' '}
-              <Link href="/signin" className="text-blue-600 hover:underline">
+              <Link href="/login" className="text-blue-600 hover:underline">
                 Sign In
               </Link>
             </Text>

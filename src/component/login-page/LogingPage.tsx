@@ -12,23 +12,26 @@ const LogingPage = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const response = await fetch('http://192.168.112.164:3000/auth/login', {
+      const response = await fetch('http://192.168.137.1:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
       });
+      const data = await response.json();
+      console.log('Login successful:', data);
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Login successful:', data);
-        localStorage.setItem('token', data.access_token);
+        localStorage.setItem('token', data.token);
+        console.log(
+          'Token saved to localStorage:',
+          localStorage.getItem('token'),
+        );
         message.success('Login successful!');
         router.push('/dashboard');
       } else {
-        const errorData = await response.json();
-        message.error(errorData.message || 'Login failed!');
+        message.error(data.message || 'Login failed!');
       }
     } catch (error) {
       console.error('Fetch error:', error);
