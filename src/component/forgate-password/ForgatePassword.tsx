@@ -10,12 +10,13 @@ const { Title, Text } = Typography;
 const ForgotPasswordPage = () => {
   const router = useRouter();
 
-  // const [showOtpField, setShowOtpField] = useState(false);
+  const [showOtpField, setShowOtpField] = useState(false);
   const [email, setEmail] = useState('');
+
 
   const onFinish = async (values: any) => {
     try {
-      const res = await fetch('http://192.168.137.1:3000/auth/forgot-password',
+      const res = await fetch('http://192.168.1.14:3000/auth/forgot-password',
         {
           method: 'POST',
           headers: {
@@ -36,37 +37,39 @@ const ForgotPasswordPage = () => {
         message.error(data.message || 'Failed to send OTP');
       }
 
-      // setShowOtpField(true);
+      setShowOtpField(true);
     } catch (err) {
       message.error('Network error');
     }
   };
 
-  // const onOtpSubmit = async (values: any) => {
-  //   try {
-  //     const res = await fetch("http://192.168.137.1:3001/auth/verify-otp", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         email,
-  //         otp: values.otp,
-  //       }),
-  //     });
+  const onOtpSubmit = async (values: any) => {
+    try {
+      const res = await fetch("http://192.168.1.14:3000/auth/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          otp: values.otp,
+        }),
+      });
 
-  //     const data = await res.json();
+      const data = await res.json();
 
-  //     if (!res.ok) {
-  //       throw new Error(data.message || "Invalid OTP");
-  //     }
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid OTP");
+      }
 
-  //     message.success("OTP verified! Redirecting to reset page...");
-  //     router.push(`/reset-password?email=${email}&token=${data.token}`);
-  //   } catch (err: any) {
-  //     message.error(err.message);
-  //   }
-  // };
+      message.success("OTP verified! Redirecting to reset page...");
+      router.push(`/resetpassword?email=${email}&token=${data.token}`);
+    } catch (err: any) {
+      message.error(err.message);
+    }
+  };
+
+ 
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -79,7 +82,7 @@ const ForgotPasswordPage = () => {
           </Text>
         </div>
 
-        {/* {!showOtpField ? ( */}
+        {!showOtpField ? (
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="Email"
@@ -98,9 +101,9 @@ const ForgotPasswordPage = () => {
             </Button>
           </Form.Item>
         </Form>
-        {/* ) 
-        : ( */}
-        {/* <Form layout="vertical" onFinish={onOtpSubmit}>
+        ) 
+        : (
+        <Form layout="vertical" onFinish={onOtpSubmit}>
             <Form.Item
               label="Enter OTP"
               name="otp"
@@ -117,8 +120,8 @@ const ForgotPasswordPage = () => {
                 Verify OTP
               </Button>
             </Form.Item>
-          </Form> */}
-        {/* )} */}
+          </Form>
+        )}
 
         <div className="text-center mt-4">
           <Text>
