@@ -4,7 +4,7 @@ import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -35,12 +35,12 @@ export class AuthController {
   return this.authService.verifyOtp(dto.otp);
 }
 
+
+@ApiBearerAuth('access-token') 
 @Put('reset-password')
 @UseGuards(AuthGuard('jwt'))
 resetPassword(@Req() req, @Body() dto: ResetPasswordDto) {
   return this.authService.resetPassword(req.user.id, dto);
 }
-
-
 
 }

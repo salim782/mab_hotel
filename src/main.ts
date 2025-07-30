@@ -15,6 +15,16 @@ async function bootstrap() {
     .addBearerAuth({ type: 'http', name: 'token', in: 'header' }, 'authentication')
     .setVersion('1.0')
     .addTag('default')
+    .addBearerAuth(                      // 👈 Add this line
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'access-token',                    // 👈 This is the name of the security scheme
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api", app, document, {
