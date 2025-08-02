@@ -11,8 +11,6 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 import * as nodemailer from 'nodemailer';
 import { ConfigService } from '@nestjs/config';
 
-
-
 @Injectable()
 export class AuthService {
   private transporter: any;
@@ -30,7 +28,6 @@ export class AuthService {
       },
     });
   }
-  
 
   async SignUp(signUpdto: SignUpDto){
     const { name, email, password,confirmPassword} = signUpdto;
@@ -47,7 +44,7 @@ export class AuthService {
       email,
       password: hashedPassword
     });
-    const payload = { id: user._id,name: user.name ,email: user.email,password:user.password };
+    const payload = { id: user._id, name: user.name ,email: user.email,password:user.password };
     const token = this.jwtService.sign(payload)
     return { 
       message: 'User registered successfully',
@@ -55,7 +52,6 @@ export class AuthService {
       token 
     };
   }
-
 
   async login(loginDto:LoginDto){
     const {email,password} = loginDto;
@@ -78,22 +74,17 @@ export class AuthService {
 
 async forgotPassword(dto: ForgotPasswordDto) {
   const { email } = dto;
-
   if (!email) {
     throw new BadRequestException('Email is required');
   }
-
   const user = await this.userModel.findOne({ email });
-
   // Don't reveal whether email exists or not
   if (!user) {
     return { message: 'If your email is registered, an OTP has been sent.' };
   }
-
   // Generate OTP and expiry
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
-
   user.otp = otp;
   user.otpExpires = expiry;
   await user.save();
@@ -104,17 +95,16 @@ async forgotPassword(dto: ForgotPasswordDto) {
       subject: 'Your OTP Code',
       text: `Your OTP code is ${otp}. It will expire in 15 minutes.`,
     });
-
     console.log('OTP email sent:', result.response);
   } catch (error) {
     console.error('Failed to send email:', error);
     throw new BadRequestException('Failed to send email');
   }
-
   return {
     message: 'OTP has been sent to your registered email.',
   };
 }
+
 
  async verifyOtp(otp: string) {
     const user = await this.userModel.findOne({
@@ -149,4 +139,3 @@ async forgotPassword(dto: ForgotPasswordDto) {
 }
 
 }
-
