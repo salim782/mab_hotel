@@ -17,7 +17,7 @@ const Dashboard = () => {
   };
 
   return (
-      <div className='h-screen w-screen flex flex-col justify-center items-center gap-6 bg-gray-100'>
+      <div className='h-screen flex flex-col justify-center items-center gap-6 bg-gray-100'>
         <h1 className='text-6xl font-bold text-red-600'>
           Dashboard Here
         </h1>

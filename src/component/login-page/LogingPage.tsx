@@ -67,7 +67,7 @@ const LogingPage = () => {
             <Input.Password size="large" placeholder="••••••••" />
           </Form.Item>
 
-          <div className="flex justify-between mb-4">
+          <div className="flex justify-end mb-4">
            
             <Link href="/signup">
               <Text className="text-blue-600 hover:underline">
