@@ -105,5 +105,4 @@ export class CreateNewReservationDto {
     @ApiProperty()
     @IsString()
     companyGstNo: string;
-
 }

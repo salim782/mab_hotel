@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { NewReservationModule } from './new-reservation/new-reservation.module';
+import { ReservationBookingDetailsModule } from './reservation-booking-details/reservation-booking-details.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { NewReservationModule } from './new-reservation/new-reservation.module';
     AuthModule,
     UsersModule,
     RoomsModule,
-    NewReservationModule
+    NewReservationModule,
+    ReservationBookingDetailsModule
     ],
   controllers: [AppController],
   providers: [AppService],
