@@ -13,7 +13,7 @@ const SignupPage = () => {
   const onFinish = async (values: any) => {
     setLoading(true)
     try {
-      const response = await fetch('http://192.168.1.14:3000/auth/signup', {
+      const response = await fetch('http://localhost:3000/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

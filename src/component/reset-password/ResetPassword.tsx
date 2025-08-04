@@ -5,29 +5,23 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const ResetPassword = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const email = searchParams.get("email");
-  const token = searchParams.get("token");
-
-  useEffect(() => {
-    if (!email || !token) {
-      message.error("Invalid or missing token. Please try again.");
-      router.push("/"); // redirect to home or login
-    }
-  }, [email, token, router]);
 
   const onFinish = async (values: any) => {
+
     try {
-      const res = await fetch("http://192.168.1.14:3000/auth/reset-password", {
-        method: "POST",
+    const token = localStorage.getItem("token");
+    console.log(token,"**********");
+    
+
+      const res = await fetch("http://localhost:3000/auth/reset-password", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`, 
         },
-        body: JSON.stringify({
-          email,
-          token,
-          newPassword: values.password,
+        body: JSON.stringify({  
+          newPassword: values.newPassword,
+          confirmPassword:values.confirmPassword
         }),
       });
 
@@ -50,7 +44,7 @@ const ResetPassword = () => {
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="New Password"
-            name="password"
+            name="newPassword"
             rules={[{ required: true, message: "Please enter your new password" }]}
           >
             <Input.Password size="large" placeholder="Enter new password" />
@@ -64,7 +58,7 @@ const ResetPassword = () => {
               { required: true, message: "Please confirm your password" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(new Error("Passwords do not match"));

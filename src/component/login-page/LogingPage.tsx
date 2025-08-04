@@ -12,7 +12,7 @@ const LogingPage = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const response = await fetch('http://192.168.1.14:3000/auth/login', {
+      const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,11 +68,7 @@ const LogingPage = () => {
           </Form.Item>
 
           <div className="flex justify-between mb-4">
-            <Link href="/forgatepassword">
-              <Text className="text-blue-600 hover:underline">
-                Forgot Password?
-              </Text>
-            </Link>
+           
             <Link href="/signup">
               <Text className="text-blue-600 hover:underline">
                 Create Account
