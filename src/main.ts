@@ -23,7 +23,7 @@ async function bootstrap() {
         name: 'Authorization',
         in: 'header',
       },
-      'access-token',                    // 👈 This is the name of the security scheme
+      'token',                    // 👈 This is the name of the security scheme
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);

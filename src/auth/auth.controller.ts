@@ -36,7 +36,7 @@ export class AuthController {
 }
 
 
-@ApiBearerAuth('access-token') 
+@ApiBearerAuth('token') 
 @Put('reset-password')
 @UseGuards(AuthGuard('jwt'))
 resetPassword(@Req() req, @Body() dto: ResetPasswordDto) {
