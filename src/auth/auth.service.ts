@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async SignUp(signUpdto: SignUpDto){
-    const { name, email, password,confirmPassword,role} = signUpdto;
+    const { name, email, password,confirmPassword} = signUpdto;
     if (password !== confirmPassword) {
     throw new UnauthorizedException('Passwords do not match');
   }
@@ -43,7 +43,7 @@ export class AuthService {
       name,
       email,
       password: hashedPassword,
-      role,
+      // role,
     });
     const payload = {
       id: user._id, 
