@@ -1,12 +1,12 @@
+import AdminDashboard from "@/component/admin_dashboard/AdminDashboard";
 import AdminLayout from "@/component/layout/AdminLayout";
-import ResetPassword from "@/component/reset-password/ResetPassword";
 import React from "react";
 
 const page = () => {
   return (
-    <div>
-      <ResetPassword />
-    </div>
+    <AdminLayout>
+      <AdminDashboard />
+    </AdminLayout>
   );
 };
 

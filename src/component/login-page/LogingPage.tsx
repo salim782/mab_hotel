@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Form, Input, Button, Typography, Card, message } from 'antd';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import { Form, Input, Button, Typography, Card, message } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const { Title, Text } = Typography;
 
@@ -12,30 +14,33 @@ const LogingPage = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
       const data = await response.json();
-      console.log('Login successful:', data);
+      console.log("Login successful:", data);
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        console.log(
-          'Token saved to localStorage:',
-          localStorage.getItem('token'),
-        );
-        message.success('Login successful!');
-        router.push('/dashboard');
+        localStorage.setItem("token", data.token);
+        toast.success("Login successful!");
+        const payload = jwtDecode(data.token) as { role: string };
+        const role = payload.role;
+
+        if (role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard");
+        }
       } else {
-        message.error(data.message || 'Login failed!');
+        toast.error(data.message || "Login failed!");
       }
     } catch (error) {
-      console.error('Fetch error:', error);
-      message.error('Something went wrong!');
+      console.error("Fetch error:", error);
+      toast.error("Something went wrong!");
     }
   };
 
@@ -52,8 +57,8 @@ const LogingPage = () => {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: 'Please enter your email' },
-              { type: 'email', message: 'Enter a valid email' },
+              { required: true, message: "Please enter your email" },
+              { type: "email", message: "Enter a valid email" },
             ]}
           >
             <Input size="large" placeholder="you@example.com" />
@@ -62,16 +67,20 @@ const LogingPage = () => {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please enter your password' }]}
+            rules={[{ required: true, message: "Please enter your password" }]}
           >
             <Input.Password size="large" placeholder="••••••••" />
           </Form.Item>
 
-          <div className="flex justify-end mb-4">
-           
+          <div className="flex justify-between mb-4">
             <Link href="/signup">
               <Text className="text-blue-600 hover:underline">
                 Create Account
+              </Text>
+            </Link>
+            <Link href="/forgatepassword">
+              <Text className="text-blue-600 hover:underline">
+                Forgot Password
               </Text>
             </Link>
           </div>

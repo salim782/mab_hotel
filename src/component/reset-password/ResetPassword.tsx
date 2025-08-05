@@ -2,6 +2,7 @@
 import { Button, Card, Form, Input, message } from "antd";
 import React, { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -31,10 +32,10 @@ const ResetPassword = () => {
         throw new Error(data.message || "Something went wrong");
       }
 
-      message.success("Password reset successful! Redirecting to login...");
+      toast.success("Password reset successful! Redirecting to login...");
       router.push("/login");
     } catch (err: any) {
-      message.error(err.message);
+      toast.error(err.message);
     }
   };
 
