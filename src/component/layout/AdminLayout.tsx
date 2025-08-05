@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import {
+  CalendarOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
@@ -81,13 +81,18 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               icon: <UserOutlined />,
               label: "Reservation",
             },
-            {
+             {
               key: "2",
+              icon: <CalendarOutlined />,
+              label: "ReservationCalender",
+            },
+            {
+              key: "3",
               icon: <MdOutlineComputer />,
               label: "Front Office",
             },
             {
-              key: "3",
+              key: "4",
               icon: <UploadOutlined />,
               label: "House Keeping",
             },
