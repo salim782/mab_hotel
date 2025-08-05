@@ -22,25 +22,31 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto){
     return await this.authService.login(loginDto);
   }
+//   @Post('forgot-password')
+//   @ApiBody({ type: ForgotPasswordDto })
+//   forgotPassword(@Body() dto: ForgotPasswordDto) {
+//     return this.authService.forgotPassword(dto);
+//   }
+//   @Post('verify-otp')
+//   @ApiBody({ type: VerifyOtpDto }) 
+//   verifyOtp(@Body() dto: VerifyOtpDto) {
+//   return this.authService.verifyOtp(dto.otp);
+// }
+// @ApiBearerAuth('token') 
+// @Put('reset-password')
+// @UseGuards(AuthGuard('jwt'))
+// resetPassword(@Req() req, @Body() dto: ResetPasswordDto) {
+//   return this.authService.resetPassword(req.user.id, dto);
+// }
 
-   @Post('forgot-password')
-  @ApiBody({ type: ForgotPasswordDto })
-  forgotPassword(@Body() dto: ForgotPasswordDto) {
-    return this.authService.forgotPassword(dto);
-  }
-
-  @Post('verify-otp')
-  @ApiBody({ type: VerifyOtpDto }) 
-  verifyOtp(@Body() dto: VerifyOtpDto) {
-  return this.authService.verifyOtp(dto.otp);
+@Post('forget-password')
+forgetPassword(@Body() dto: ForgotPasswordDto) {
+  return this.authService.forgetPassword(dto);
 }
 
-
-@ApiBearerAuth('token') 
-@Put('reset-password')
-@UseGuards(AuthGuard('jwt'))
-resetPassword(@Req() req, @Body() dto: ResetPasswordDto) {
-  return this.authService.resetPassword(req.user.id, dto);
+@Post('reset-password')
+resetPassword(@Body() dto: ResetPasswordDto) {
+  return this.authService.resetPassword(dto);
 }
 
 }

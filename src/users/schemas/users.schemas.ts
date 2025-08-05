@@ -37,7 +37,11 @@ export type UsersDocument = Users & Document
      @MinLength(6)
      confirmPassword: string;
 
+     @Prop()
+    resetPasswordToken?: string;
 
+    @Prop()
+    resetPasswordExpires?: Date;
 
  }
  export const usersSchema = SchemaFactory.createForClass(Users)
