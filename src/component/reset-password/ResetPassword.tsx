@@ -1,80 +1,66 @@
 "use client";
-import { Button, Card, Form, Input, message } from "antd";
-import React, { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Form, Input, Button, message, Card } from "antd";
 
 const ResetPassword = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+  const email = searchParams.get("email");
 
   const onFinish = async (values: any) => {
+    const res = await fetch("http://localhost:3000/auth/reset-password", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token,
+        email,
+        newPassword: values.newPassword,
+        confirmPassword: values.confirmPassword,
+      }),
+    });
 
-    try {
-    const token = localStorage.getItem("token");
-    console.log(token,"**********");
-    
+    const data = await res.json();
 
-      const res = await fetch("http://localhost:3000/auth/reset-password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-             Authorization: `Bearer ${token}`, 
-        },
-        body: JSON.stringify({  
-          newPassword: values.newPassword,
-          confirmPassword:values.confirmPassword
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Something went wrong");
-      }
-
-      toast.success("Password reset successful! Redirecting to login...");
+    if (!res.ok) {
+      message.error(data.message);
+    } else {
+      message.success("Password reset successfully");
       router.push("/login");
-    } catch (err: any) {
-      toast.error(err.message);
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card title="Reset Your Password" className="w-full max-w-md">
-        <Form layout="vertical" onFinish={onFinish}>
+      <Card className="w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4">Reset Your Password</h2>
+        <Form onFinish={onFinish}>
           <Form.Item
-            label="New Password"
             name="newPassword"
-            rules={[{ required: true, message: "Please enter your new password" }]}
+            rules={[{ required: true, message: "Enter new password" }]}
           >
-            <Input.Password size="large" placeholder="Enter new password" />
+            <Input.Password placeholder="New Password" />
           </Form.Item>
-
           <Form.Item
-            label="Confirm Password"
             name="confirmPassword"
-            dependencies={["password"]}
+            dependencies={["newPassword"]}
             rules={[
-              { required: true, message: "Please confirm your password" },
+              { required: true, message: "Confirm your password" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("newPassword") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error("Passwords do not match"));
+                  return Promise.reject("Passwords do not match");
                 },
               }),
             ]}
           >
-            <Input.Password size="large" placeholder="Confirm new password" />
+            <Input.Password placeholder="Confirm Password" />
           </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" size="large" block>
-              Reset Password
-            </Button>
-          </Form.Item>
+          <Button type="primary" htmlType="submit" block>
+            Reset Password
+          </Button>
         </Form>
       </Card>
     </div>

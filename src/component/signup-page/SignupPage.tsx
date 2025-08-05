@@ -22,6 +22,8 @@ const SignupPage = () => {
         body: JSON.stringify(values),
       });
       const data = await response.json();
+        localStorage.setItem("token", data.token);
+
       console.log('signup successful:', data);
 
       if (response.ok) {

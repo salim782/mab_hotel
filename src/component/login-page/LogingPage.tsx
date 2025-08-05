@@ -78,7 +78,7 @@ const LogingPage = () => {
                 Create Account
               </Text>
             </Link>
-            <Link href="/forgatepassword">
+            <Link href="/forgotpassword">
               <Text className="text-blue-600 hover:underline">
                 Forgot Password
               </Text>
