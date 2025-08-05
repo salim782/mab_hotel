@@ -10,9 +10,11 @@ import {
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 
 const { Header, Sider, Content } = Layout;
+const { SubMenu } = Menu;
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -25,13 +27,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   } = theme.useToken();
 
   const siderWidth = collapsed ? 80 : 200;
-   const router = useRouter();
-  
-    const handleClick = () => {
-      localStorage.removeItem('token');
-      router.push("/login");
-    };
-  
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.replace("/login");
+  };
 
   return (
     <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
@@ -63,7 +64,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             alt="Logo"
             style={{
               height: collapsed ? 40 : "100%",
-              width: collapsed ? 40 : "auto", 
+              width: collapsed ? 40 : "auto",
               objectFit: "contain",
               borderRadius: "100%",
               transition: "all 0.3s ease",
@@ -71,33 +72,32 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           />
         </div>
 
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "Reservation",
-            },
-             {
-              key: "2",
-              icon: <CalendarOutlined />,
-              label: "ReservationCalender",
-            },
-            {
-              key: "3",
-              icon: <MdOutlineComputer />,
-              label: "Front Office",
-            },
-            {
-              key: "4",
-              icon: <UploadOutlined />,
-              label: "House Keeping",
-            },
-          ]}
-        />
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          <Menu.Item key="1" icon={<UserOutlined />}>
+            Reservation
+          </Menu.Item>
+          <Menu.Item key="2" icon={<MdOutlineComputer />}>
+            Front Office
+          </Menu.Item>
+          <Menu.Item key="3" icon={<UploadOutlined />}>
+            House Keeping
+          </Menu.Item>
+
+          {/* Setting Dropdown as SubMenu */}
+          <SubMenu key="4" icon={<IoSettingsOutline />} title="Settings">
+            {/* <div> */}
+              <Menu.Item
+                key="4-1"
+                // onClick={() => router.push("/forgatepassword")}
+              >
+                Change Password
+              </Menu.Item>
+              <Menu.Item key="4-2" onClick={handleLogout}>
+                Logout
+              </Menu.Item>
+            {/* </div> */}
+          </SubMenu>
+        </Menu>
       </Sider>
 
       <Layout
@@ -113,9 +113,9 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             background: colorBgContainer,
             display: "flex",
             alignItems: "center",
-            justifyContent:"space-between",
+            justifyContent: "space-between",
             paddingLeft: 40,
-            paddingRight:40
+            paddingRight: 40,
           }}
         >
           <Button
@@ -128,7 +128,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               height: 64,
             }}
           />
-          <Button type="primary" size="middle" onClick={handleClick}>
+          <Button type="primary" size="middle" onClick={handleLogout}>
             Logout
           </Button>
         </Header>

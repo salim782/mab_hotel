@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Typography, Card, message } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const { Title, Text } = Typography;
 
@@ -24,14 +25,14 @@ const SignupPage = () => {
       console.log('signup successful:', data);
 
       if (response.ok) {
-        message.success('Create Account successful!');
+        toast.success('Create Account successful!');
         router.push('/login');
       } else {
-        message.error(data.message || 'signup failed!');
+        toast.error(data.message || 'signup failed!');
       }
     } catch (error) {
       console.error('Fetch error:', error);
-      message.error('Something went wrong!');
+      toast.error('Something went wrong!');
     }finally{
       setLoading(false)
     }

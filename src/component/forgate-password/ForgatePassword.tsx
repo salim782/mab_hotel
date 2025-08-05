@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Typography, Card, message } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const { Title, Text } = Typography;
 
@@ -25,21 +26,20 @@ const ForgotPasswordPage = () => {
           body: JSON.stringify({ email: values.email }),
         },
       );
-      console.log('sent otp succesfully', res);
 
       const data = await res.json();
       console.log('sent otp succesfully', data);
 
       if (res.ok) {
-        message.success('OTP sent to your email.');
-        setEmail(values.email); // store for OTP verification
+        toast.success('OTP sent to your email.');
+        setEmail(values.email);
       } else {
-        message.error(data.message || 'Failed to send OTP');
+        toast.error(data.message || 'Failed to send OTP');
       }
 
       setShowOtpField(true);
     } catch (err) {
-      message.error('Network error');
+      toast.error('Network error');
     }
   };
 
@@ -62,10 +62,10 @@ const ForgotPasswordPage = () => {
         throw new Error(data.message || "Invalid OTP");
       }
 
-      message.success("OTP verified! Redirecting to reset page...");
+      toast.success("OTP verified! Redirecting to reset page...");
       router.push(`/resetpassword?email=${email}&token=${data.token}`);
     } catch (err: any) {
-      message.error(err.message);
+      toast.error(err.message);
     }
   };
 
