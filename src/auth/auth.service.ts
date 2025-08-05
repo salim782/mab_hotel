@@ -128,7 +128,7 @@ async forgotPassword(dto: ForgotPasswordDto) {
     }
     return {
       message: 'OTP verified successfully',
-      userId: user._id 
+      // userId: user._id 
     };
   }
 
