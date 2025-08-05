@@ -23,7 +23,7 @@ export class NewReservationService {
   }
 
   async update(id: string, updateNewReservationDto: UpdateNewReservationDto) {
-    return await this.model.findByIdAndUpdate(new Types.ObjectId(id),UpdateNewReservationDto,{new:true});
+    return await this.model.findByIdAndUpdate(new Types.ObjectId(id),updateNewReservationDto,{new:true});
   }
 
   async remove(id: string) {

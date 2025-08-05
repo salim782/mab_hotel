@@ -8,6 +8,9 @@ import { UsersModule } from './users/users.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { NewReservationModule } from './new-reservation/new-reservation.module';
 import { ReservationBookingDetailsModule } from './reservation-booking-details/reservation-booking-details.module';
+import { ReservationCalenderModule } from './reservation-calender/reservation-calender.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './common/roles.guard';
 
 @Module({
   imports: [
@@ -20,10 +23,15 @@ import { ReservationBookingDetailsModule } from './reservation-booking-details/r
     UsersModule,
     RoomsModule,
     NewReservationModule,
-    ReservationBookingDetailsModule
+    ReservationBookingDetailsModule,
+    ReservationCalenderModule
     ],
   controllers: [AppController],
   providers: [AppService],
+  // providers: [
+  //   { provide: APP_GUARD, useClass: JwtAuthGuard },
+  //   { provide: APP_GUARD, useClass: RolesGuard },
+  // ],
 })
 export class AppModule {}
 

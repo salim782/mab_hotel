@@ -16,7 +16,7 @@ export class ReservationBookingDetail{
 
     @Prop({required:true, type:Date})
     fromDate: Date;
-    
+
     @Prop({required:true, type:Date})
     toDate: Date;
 

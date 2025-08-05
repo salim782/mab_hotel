@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   async SignUp(signUpdto: SignUpDto){
-    const { name, email, password,confirmPassword} = signUpdto;
+    const { name, email, password,confirmPassword,role} = signUpdto;
     if (password !== confirmPassword) {
     throw new UnauthorizedException('Passwords do not match');
   }
@@ -42,9 +42,16 @@ export class AuthService {
     const user = await this.userModel.create({
       name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role,
     });
-    const payload = { id: user._id, name: user.name ,email: user.email,password:user.password };
+    const payload = {
+      id: user._id, 
+      name: user.name, 
+      email: user.email,
+      password:user.password,
+      role:user.role,
+    };
     const token = this.jwtService.sign(payload)
     return { 
       message: 'User registered successfully',
@@ -63,7 +70,12 @@ export class AuthService {
     if(!isPasswordMatched){
       throw new UnauthorizedException('invalid email or password')
     }
-    const payload = { id: user._id, name: user.name , email: user.email };
+    const payload = { 
+      id: user._id, 
+      name: user.name, 
+      email: user.email,
+      role: user.role,
+    };
     const token = this.jwtService.sign(payload)
     return { 
       message: 'Login successful',
