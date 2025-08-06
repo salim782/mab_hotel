@@ -164,7 +164,7 @@ async forgetPassword(dto: ForgotPasswordDto) {
   user.resetPasswordExpires = expires;
   await user.save();
 
-  const resetLink = `http://localhost:3000/reset-password?token=${token}`;
+  const resetLink = `http://localhost:3001/reset-password?token=${token}&email=${user.email}`;
 
   await this.transporter.sendMail({
     to: user.email,

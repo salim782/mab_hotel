@@ -44,7 +44,7 @@ forgetPassword(@Body() dto: ForgotPasswordDto) {
   return this.authService.forgetPassword(dto);
 }
 
-@Post('reset-password')
+@Put('reset-password')
 resetPassword(@Body() dto: ResetPasswordDto) {
   return this.authService.resetPassword(dto);
 }
