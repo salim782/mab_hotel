@@ -21,9 +21,9 @@ const ForgotPassword = () => {
     const data = await res.json();
 
     if (!res.ok) {
-      message.error(data.message);
+      toast.error(data.message);
     } else {
-      message.success("Reset link sent to your email.");
+      toast.success("Reset link sent to your email.");
       router.push("/login");
     }
   };

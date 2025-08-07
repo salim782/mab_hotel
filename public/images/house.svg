@@ -1,0 +1,23 @@
+<svg width="100" height="100" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <!-- House Outline -->
+  <path d="M8 28L32 8L56 28V56C56 57.1 55.1 58 54 58H10C8.9 58 8 57.1 8 56V28Z" fill="#FFE0B2" stroke="#FB8C00" stroke-width="2"></path>
+
+  <!-- Bed Base -->
+  <rect x="16" y="44" width="32" height="6" fill="#8D6E63"></rect>
+  <!-- Bed Backrest -->
+  <rect x="16" y="38" width="4" height="6" fill="#6D4C41"></rect>
+  <!-- Mattress -->
+  <rect x="20" y="40" width="28" height="4" fill="#BDBDBD"></rect>
+
+  <!-- Man Sitting on Bed (Head) -->
+  <circle cx="32" cy="34" r="3" fill="#3F51B5"></circle>
+
+  <!-- Man Sitting (Body upright) -->
+  <path d="M30 36H34V40H30V36Z" fill="#2196F3"></path>
+
+  <!-- Arms resting -->
+  <path d="M29 36H28V38H29V36ZM36 36H35V38H36V36Z" fill="#2196F3"></path>
+
+  <!-- Legs on bed -->
+  <path d="M30 40H32V44H30V40ZM32 40H34V44H32V40Z" fill="#1976D2"></path>
+</svg>
