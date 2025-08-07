@@ -7,14 +7,21 @@ import {
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
+  PlusCircleOutlined,
+  FileTextOutlined,
+  EyeOutlined,
+  CloseCircleOutlined,
+  DollarCircleOutlined,
+  RedoOutlined,
+  StopOutlined,
+  BookOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const { Header, Sider, Content } = Layout;
-const { SubMenu } = Menu;
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -26,107 +33,109 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const siderWidth = collapsed ? 80 : 200;
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.replace("/login");
   };
 
+  const handleMenuClick = ({ key }: { key: string }) => {
+    if (key === "logout") {
+      handleLogout();
+    } else {
+      router.push(key);
+    }
+  };
+
+  const menuItems = [
+    {
+      key: "/reservation",
+      icon: <UserOutlined />,
+      label: "Reservation",
+      children: [
+        { key: "/reservation/new", icon: <PlusCircleOutlined />, label: "New Reservation" },
+        { key: "/reservation/details", icon: <FileTextOutlined />, label: "Reservation Booking Details" },
+        { key: "/reservation/status", icon: <EyeOutlined />, label: "Reservation Status View" },
+        { key: "/reservation/cancel", icon: <CloseCircleOutlined />, label: " Cancel Reservation List" },
+        { key: "/reservation-calendar", icon: <CalendarOutlined />, label: "ReservationCalendar" },
+        { key: "/reservation/deposit", icon: <DollarCircleOutlined />, label: "Advanced Deposit" },
+        { key: "/reservation/return", icon: <RedoOutlined />, label: "Return / Paidup" },
+        { key: "/reservation/noshow", icon: <StopOutlined />, label: "No Show Room Report" },
+        { key: "/reservation/accounts", icon: <BookOutlined />, label: "Booking Sheet Accounts" },
+      ],
+    },
+    { key: "/front-office", icon: <MdOutlineComputer />, label: "Front Office" },
+    { key: "/house-keeping", icon: <UploadOutlined />, label: "House Keeping" },
+    {
+      key: "settings",
+      icon: <IoSettingsOutline />,
+      label: "Settings",
+      children: [
+        { key: "/changepassword", label: "Change Password" },
+        { key: "logout", label: "Logout" },
+      ],
+    },
+  ];
+
   return (
-    <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
+    <Layout className="min-h-screen overflow-hidden">
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
-        width={200}
-        style={{
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-          top: 0,
-          bottom: 0,
-          zIndex: 1000,
-        }}
+        width={250}
+        className="!bg-red-700"
+
+
       >
-        <div
-          style={{
-            height: 70,
-            margin: 16,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="h-[70px] m-4 flex justify-center items-center">
           <img
             src="/logo.png"
             alt="Logo"
-            style={{
-              height: collapsed ? 40 : "100%",
-              width: collapsed ? 40 : "auto",
-              objectFit: "contain",
-              borderRadius: "100%",
-              transition: "all 0.3s ease",
-            }}
+            className={`transition-all duration-300 rounded-full object-contain ${collapsed ? "h-10 w-10" : "h-full w-auto"
+              }`}
           />
         </div>
 
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            Reservation
-          </Menu.Item>
-          <Menu.Item key="2" icon={<MdOutlineComputer />}>
-            Front Office
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            House Keeping
-          </Menu.Item>
+        <Menu
+          theme="light"
+          mode="inline"
+          selectedKeys={[pathname]}
+          onClick={handleMenuClick}
+          items={menuItems}
+          inlineIndent={10}
+          className="
+  !text-sm 
+  !bg-red-700 
+  [&_.ant-menu-item]:!py-2 
+  [&_.ant-menu-submenu-title]:!py-2 
 
-          {/* Setting Dropdown as SubMenu */}
-          <SubMenu key="4" icon={<IoSettingsOutline />} title="Settings">
-            {/* <div> */}
-              <Menu.Item
-                key="4-1"
-                // onClick={() => router.push("/forgatepassword")}
-              >
-                Change Password
-              </Menu.Item>
-              <Menu.Item key="4-2" onClick={handleLogout}>
-                Logout
-              </Menu.Item>
-            {/* </div> */}
-          </SubMenu>
-        </Menu>
+  [&_.ant-menu-item]:!text-white
+  [&_.ant-menu-submenu-title]:!text-white
+"
+
+        />
       </Sider>
 
       <Layout
-        style={{
-          marginLeft: siderWidth,
-          transition: "margin-left 0.2s ease",
-          width: `calc(100% - ${siderWidth}px)`,
-        }}
+        className="transition-all duration-200"
+      /* HATA DIYA: marginLeft & width style hata diye */
+      // style={{
+      //   marginLeft: collapsed ? 80 : 200,
+      //   width: `calc(100% - ${collapsed ? 80 : 200}px)`,
+      // }}
       >
         <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingLeft: 40,
-            paddingRight: 40,
-          }}
+          className="flex items-center justify-between px-10"
+          style={{ background: colorBgContainer }}
         >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
+            className="text-lg w-16 h-16"
           />
           <Button type="primary" size="middle" onClick={handleLogout}>
             Logout
@@ -134,13 +143,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </Header>
 
         <Content
+          className="m-6 p-6 overflow-x-hidden"
           style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
-            overflowX: "hidden",
+            minHeight: 280,
           }}
         >
           {children}

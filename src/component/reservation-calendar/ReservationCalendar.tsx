@@ -31,7 +31,7 @@ const ReservationCalendar = () => {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true); // Ensure this only runs on the client
+        setMounted(true);
     }, []);
 
     const dates = useMemo(() => {
