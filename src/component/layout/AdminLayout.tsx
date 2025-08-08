@@ -34,6 +34,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   } = theme.useToken();
 
   const router = useRouter();
+  const siderWidth = collapsed ? 80 : 250;
   const pathname = usePathname();
 
   const handleLogout = () => {
@@ -55,7 +56,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       icon: <UserOutlined />,
       label: "Reservation",
       children: [
-        { key: "/reservation/new", icon: <PlusCircleOutlined />, label: "New Reservation" },
+        { key: "/new-reservation", icon: <PlusCircleOutlined />, label: "New Reservation" },
         { key: "/reservation/details", icon: <FileTextOutlined />, label: "Reservation Booking Details" },
         { key: "/reservation/status", icon: <EyeOutlined />, label: "Reservation Status View" },
         { key: "/reservation/cancel", icon: <CloseCircleOutlined />, label: " Cancel Reservation List" },
@@ -87,18 +88,16 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         collapsed={collapsed}
         width={250}
         className="!bg-red-700"
-
-
+        style={{ position: "fixed", height: "100%" }}
       >
+
         <div className="h-[70px] m-4 flex justify-center items-center">
           <img
             src="/logo.png"
             alt="Logo"
-            className={`transition-all duration-300 rounded-full object-contain ${collapsed ? "h-10 w-10" : "h-full w-auto"
-              }`}
+            className={`transition-all duration-300 rounded-full object-contain ${collapsed ? "h-10 w-10" : "h-full w-auto"}`}
           />
         </div>
-
         <Menu
           theme="light"
           mode="inline"
@@ -106,30 +105,29 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           onClick={handleMenuClick}
           items={menuItems}
           inlineIndent={10}
-          className="
-  !text-sm 
-  !bg-red-700 
-  [&_.ant-menu-item]:!py-2 
-  [&_.ant-menu-submenu-title]:!py-2 
-
-  [&_.ant-menu-item]:!text-white
-  [&_.ant-menu-submenu-title]:!text-white
-"
-
+          className="!text-sm !bg-red-700 [&_.ant-menu-item]:!py-2 [&_.ant-menu-submenu-title]:!py-2 [&_.ant-menu-item]:!text-white [&_.ant-menu-submenu-title]:!text-white"
         />
       </Sider>
+      <Layout className=" transition-all duration-200"
+        style={{
+          marginLeft: siderWidth,
+          transition: "margin-left 0.2s ease",
+          width: ` calc(100% - ${siderWidth}px)`,
 
-      <Layout
-        className="transition-all duration-200"
-      /* HATA DIYA: marginLeft & width style hata diye */
-      // style={{
-      //   marginLeft: collapsed ? 80 : 200,
-      //   width: `calc(100% - ${collapsed ? 80 : 200}px)`,
-      // }}
+        }}
       >
         <Header
-          className="flex items-center justify-between px-10"
-          style={{ background: colorBgContainer }}
+          className=" flex items-center justify-between px-10 "
+          style={{
+            background: colorBgContainer,
+            position: "fixed",
+            top: 0,
+            left: siderWidth,
+            width: `calc(100% - ${siderWidth}px)`,
+            height: 70,
+            zIndex: 1000,
+            paddingInline: 20,
+          }}
         >
           <Button
             type="text"
@@ -141,7 +139,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             Logout
           </Button>
         </Header>
-
         <Content
           className="m-6 p-6 overflow-x-hidden"
           style={{
