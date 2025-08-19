@@ -1,11 +1,11 @@
 import AdminLayout from "@/component/layout/AdminLayout";
-import NewReservation from "@/component/new-reservation/NewReservation";
+import CancelReservation from "@/component/res-cancel/CancelReservation";
 import React from "react";
 
 const page = () => {
   return (
     <AdminLayout>
-      <NewReservation />
+      <CancelReservation />
     </AdminLayout>
   );
 };

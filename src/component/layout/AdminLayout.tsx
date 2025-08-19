@@ -1,93 +1,172 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Layout, Menu, theme } from "antd";
+import { Button, Grid, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
-import { IoSettingsOutline } from "react-icons/io5";
-import { useRouter } from "next/navigation";
-import Item from "antd/es/list/Item";
+import { useRouter, usePathname } from "next/navigation";
+const { useBreakpoint } = Grid;
 
 const { Header, Sider, Content } = Layout;
-const { SubMenu } = Menu;
 
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
-const items = [
-  {
-    key: "1",
-    icon: <UserOutlined />,
-    label: "Reservation",
-    children: [
-      {
-        key: "1-1",
-        icon: <MdOutlineComputer />,
-        label: "New Reservation",
-      },
-      {
-        key: "1-2",
-        icon: <MdOutlineComputer />,
-        label: "Reservation Booking Details",
-      },
-      {
-        key: "1-3",
-        icon: <MdOutlineComputer />,
-        label: "Reservation Status View",
-      },
-      {
-        key: "1-4",
-        icon: <MdOutlineComputer />,
-        label: "Cancel Reservation List",
-      },
-      {
-        key: "1-5",
-        icon: <MdOutlineComputer />,
-        label: "Reservation Calender",
-      },
-      {
-        key: "1-6",
-        icon: <MdOutlineComputer />,
-        label: "Advanced Deposit",
-      },
-      {
-        key: "1-7",
-        icon: <MdOutlineComputer />,
-        label: "Return/Paidup",
-      },
-    ],
-  },
-  {
-    key: "2",
-    icon: <UserOutlined />,
-    label: "Front Office",
-  },
-  {
-    key: "3",
-    icon: <UserOutlined />,
-    label: "House Keeping",
-  },
-];
-
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [openKeys, setOpenKeys] = useState<string[]>(["1"]);
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const siderWidth = collapsed ? 80 : 250;
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Route mapping
+  const routeMap: Record<string, string> = {
+    "1-1": "/new-reservation",
+    "1-2": "/res-booking",
+    "1-3": "/res-status",
+    "1-4": "/res-cancel",
+    "1-5": "/reservation-calender",
+    "1-6": "/advanced-deposit",
+    "1-7": "/return-paidup",
+  };
+
+  // Set selected menu based on current path
+  useEffect(() => {
+    const foundKey = Object.keys(routeMap).find(
+      (key) => routeMap[key] === pathname
+    );
+    if (foundKey) {
+      setSelectedKeys([foundKey]);
+    }
+  }, [pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.replace("/login");
   };
+
+  const handleNavigate = (path: string, key: string) => {
+    setSelectedKeys([key]);
+    router.push(path);
+  };
+
+  const items = [
+    {
+      key: "1",
+      icon: <UserOutlined />,
+      label: "Reservation",
+      children: [
+        {
+          key: "1-1",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/new-reservation", "1-1")}
+              className="cursor-pointer"
+            >
+              New Reservation
+            </span>
+          ),
+        },
+        {
+          key: "1-2",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/res-booking", "1-2")}
+              className="cursor-pointer"
+            >
+              Reservation Booking Details
+            </span>
+          ),
+        },
+        {
+          key: "1-3",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/res-status", "1-3")}
+              className="cursor-pointer"
+            >
+              Reservation Status View
+            </span>
+          ),
+        },
+        {
+          key: "1-4",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/res-cancel", "1-4")}
+              className="cursor-pointer"
+            >
+              Cancel Reservation List
+            </span>
+          ),
+        },
+        {
+          key: "1-5",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/reservation-calender", "1-5")}
+              className="cursor-pointer"
+            >
+              Reservation Calendar
+            </span>
+          ),
+        },
+        {
+          key: "1-6",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/advanced-deposit", "1-6")}
+              className="cursor-pointer"
+            >
+              Advanced Deposit
+            </span>
+          ),
+        },
+        {
+          key: "1-7",
+          icon: <MdOutlineComputer />,
+          label: (
+            <span
+              onClick={() => handleNavigate("/return-paidup", "1-7")}
+              className="cursor-pointer"
+            >
+              Return/Paidup
+            </span>
+          ),
+        },
+      ],
+    },
+    {
+      key: "2",
+      icon: <UserOutlined />,
+      label: "Front Office",
+    },
+    {
+      key: "3",
+      icon: <UserOutlined />,
+      label: "House Keeping",
+    },
+  ];
+
+  const screens = useBreakpoint();
+
+  const isMobile = !screens.md;
 
   return (
     <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
@@ -135,56 +214,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          openKeys={openKeys}
+          onOpenChange={(keys) => setOpenKeys(keys)}
+          selectedKeys={selectedKeys}
           items={items}
-        >
-          {/* <SubMenu key="1" icon={<UserOutlined />} title="Reservation">
-            <Menu.Item key="1-1" icon={<MdOutlineComputer />}>
-              New Reservation
-            </Menu.Item>
-            <Menu.Item key="1-2" icon={<UploadOutlined />}>
-              Reservation Booking Detail
-            </Menu.Item>
-              <Menu.Item key="1-3" icon={<MdOutlineComputer />}>
-               Reservation Status View
-            </Menu.Item>
-            <Menu.Item key="1-4" icon={<UploadOutlined />}>
-              Cancel Reservation List
-            </Menu.Item>
-             <Menu.Item key="1-5" icon={<MdOutlineComputer />}>
-               Reservation Calender
-            </Menu.Item>
-            <Menu.Item key="1-6" icon={<UploadOutlined />}>
-              Advanced Deposit
-            </Menu.Item>
-              <Menu.Item key="1-7" icon={<MdOutlineComputer />}>
-               Return/paidup
-            </Menu.Item>
-            <Menu.Item key="1-8" icon={<UploadOutlined />}>
-              Cancel Reservation List
-            </Menu.Item>
-          </SubMenu> */}
-          {/* <Menu.Item key="2" icon={<MdOutlineComputer />}>
-            Front Office
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            House Keeping
-          </Menu.Item> */}
-
-          {/* Setting Dropdown as SubMenu */}
-          {/* <SubMenu key="4" icon={<IoSettingsOutline />} title="Settings"> */}
-          {/* <div> */}
-          {/* <Menu.Item
-                key="4-1"
-                // onClick={() => router.push("/forgatepassword")}
-              >
-                Change Password
-              </Menu.Item> */}
-          {/* <Menu.Item key="4-1" onClick={handleLogout}>
-              Logout
-            </Menu.Item>
-          </SubMenu> */}
-        </Menu>
+        />
       </Sider>
 
       <Layout
@@ -201,8 +235,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            paddingLeft: 40,
-            paddingRight: 40,
+            paddingLeft: 0,
+            paddingRight: 20,
           }}
         >
           <Button
@@ -222,12 +256,15 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
+            // margin: "24px 16px",
+            // padding: 24,
+            margin: isMobile ? 0 : "24px 16px",
+            padding: isMobile ? 0 : 24,
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
             overflowX: "hidden",
+            backgroundColor: "#f5f5f4",
           }}
         >
           {children}
