@@ -9,7 +9,6 @@ import { InjectModel } from '@nestjs/mongoose';
 export class NewReservationService {
   constructor(@InjectModel(NewReservation.name)private model:Model<NewReservation>){}
 
-
   async create(createNewReservationDto: CreateNewReservationDto) {
     return await this.model.create(createNewReservationDto);
   }

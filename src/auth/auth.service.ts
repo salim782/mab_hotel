@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Res, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs'
@@ -11,6 +11,8 @@ import { ConfigService } from '@nestjs/config';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import * as crypto from 'crypto';
+// import { PassThrough } from 'stream';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -61,7 +63,7 @@ export class AuthService {
     };
   }
 
-  async login(loginDto:LoginDto){
+  async login(loginDto:LoginDto,res:Response){
     const {email,password} = loginDto;
     const user = await this.userModel.findOne({email})
     if(!user){
@@ -77,11 +79,17 @@ export class AuthService {
       email: user.email,
       role: user.role,
     };
-    const token = this.jwtService.sign(payload)
+    const token = this.jwtService.sign(payload);
+    res.cookie('auth_token',token,{
+      httpOnly:true,
+      secure: false,
+      sameSite: 'strict',
+      maxAge: 60*60*1000,
+    });
     return { 
       message: 'Login successful',
       user: payload,
-      token
+      token,
      };
   }
 

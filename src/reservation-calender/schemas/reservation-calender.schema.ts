@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-
 @Schema({timestamps:true})
 export class ReservationCalender{
 
@@ -31,5 +30,6 @@ export class ReservationCalender{
     @Prop({required:true})
     status: 'available' | 'partial' | 'full';
 }
+
 export const ReservationCalenderSchemas = SchemaFactory.createForClass(ReservationCalender);
 

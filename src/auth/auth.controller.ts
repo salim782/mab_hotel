@@ -1,13 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, Req, UseGuards, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
-import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
-import { VerifyOtpDto } from './dto/verify-otp.dto';
-import { AuthGuard } from '@nestjs/passport';
-
+// import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+// import { VerifyOtpDto } from './dto/verify-otp.dto';
+// import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -18,10 +18,16 @@ export class AuthController {
     return await this.authService.SignUp(signUpDto);
   }
 
+  // @Post('login')
+  // async login(@Body() loginDto: LoginDto){
+  //   return await this.authService.login(loginDto,res);
+  // }
+
   @Post('login')
-  async login(@Body() loginDto: LoginDto){
-    return await this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
+    return await this.authService.login(loginDto, res);
   }
+  
 //   @Post('forgot-password')
 //   @ApiBody({ type: ForgotPasswordDto })
 //   forgotPassword(@Body() dto: ForgotPasswordDto) {
