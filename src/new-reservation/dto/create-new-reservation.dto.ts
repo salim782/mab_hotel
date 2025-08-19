@@ -18,9 +18,9 @@ export class CreateNewReservationDto {
     @IsString()
     email: string;
 
-    @ApiProperty()
-    @IsString()
-    emailAlt: string;
+    // @ApiProperty()
+    // @IsString()
+    // emailAlt: string;
 
     @ApiProperty()
     @IsString()
@@ -30,9 +30,9 @@ export class CreateNewReservationDto {
     @IsString()
     mobileNo: string;
 
-    @ApiProperty()
-    @IsString()
-    mobileNo2: string;
+    // @ApiProperty()
+    // @IsString()
+    // mobileNo2: string;
 
     @ApiProperty()
     @IsString()
@@ -46,9 +46,9 @@ export class CreateNewReservationDto {
     @IsString()
     gender: string;
 
-    @ApiProperty()
-    @IsString()
-    employeeType:string
+    // @ApiProperty()
+    // @IsString()
+    // employeeType:string
 
     @ApiProperty()
     @IsString()
@@ -70,39 +70,39 @@ export class CreateNewReservationDto {
     @IsString()
     country: string;
 
-    @ApiProperty()
-    @IsString()
-    state: string;
+    // @ApiProperty()
+    // @IsString()
+    // state: string;
 
-    @ApiProperty()
-    @IsString()
-    city: string;
+    // @ApiProperty()
+    // @IsString()
+    // city: string;
 
     @ApiProperty()
     @IsString()
     zipCode: string;
 
-    @ApiProperty()
-    @IsString()
-    bookedBy: string;
+    // @ApiProperty()
+    // @IsString()
+    // bookedBy: string;
 
-    @ApiProperty()
-    @IsString()
-    transportMode: string;
+    // @ApiProperty()
+    // @IsString()
+    // transportMode: string;
 
-    @ApiProperty()
-    @IsString()
-    confirmVoucherNo: string;
+    // @ApiProperty()
+    // @IsString()
+    // confirmVoucherNo: string;
 
-    @ApiProperty()
-    @IsString()
-    businessMarketSource: string;
+    // @ApiProperty()
+    // @IsString()
+    // businessMarketSource: string;
 
-    @ApiProperty()
-    @IsString()
-    company: string;
+    // @ApiProperty()
+    // @IsString()
+    // company: string;
 
-    @ApiProperty()
-    @IsString()
-    companyGstNo: string;
+    // @ApiProperty()
+    // @IsString()
+    // companyGstNo: string;
 }

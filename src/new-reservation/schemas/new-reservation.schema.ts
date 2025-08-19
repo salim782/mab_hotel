@@ -16,8 +16,8 @@ export class NewReservation{
     @Prop({required:true, type:String})
     email: string;
 
-    @Prop({required:true, type:String})
-    emailAlt: string;
+    // @Prop({required:true, type:String})
+    // emailAlt: string;
 
     @Prop({required:true, type:String})
     reservationType: string;
@@ -25,8 +25,8 @@ export class NewReservation{
     @Prop({required:true, type:String})
     mobileNo: string;
 
-    @Prop({required:true, type:String})
-    mobileNo2: string;
+    // @Prop({required:true, type:String})
+    // mobileNo2: string;
 
     @Prop({required:true, type:String})
     address: string;
@@ -37,51 +37,51 @@ export class NewReservation{
     @Prop({required:true, type:String})
     gender: string;
 
-    @Prop({requrid:true, type:String})
-    employeeType: string;
+    // @Prop({type:String})
+    // employeeType: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     pickDropFacility: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     visitPurpose: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     arrivalFrom: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     departureTo: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     country: string;
 
 
-    @Prop({required:true, type:String})
-    state: string;
+    // @Prop({type:String})
+    // state: string;
 
-    @Prop({required:true, type:String})
-    city: string;
+    // @Prop({type:String})
+    // city: string;
 
     @Prop({required:true, type:String})
     zipCode: string;
 
-    @Prop({required:true, type:String})
-    bookedBy: string;
+    // @Prop({type:String})
+    // bookedBy: string;
 
-    @Prop({type:String})
-    transportMode: string;
+    // @Prop({type:String})
+    // transportMode: string;
 
-    @Prop({type:String})
-    confirmVoucherNo: string;
+    // @Prop({type:String})
+    // confirmVoucherNo: string;
 
-    @Prop({type:String})
-    businessMarketSource: string;
+    // @Prop({type:String})
+    // businessMarketSource: string;
 
-    @Prop({required:true,type:String})
-    company: string;
+    // @Prop({type:String})
+    // company: string;
 
-    @Prop({type:String})
-    companyGstNo: string;
+    // @Prop({type:String})
+    // companyGstNo: string;
 }
 
 export const NewReservationSchemas = SchemaFactory.createForClass(NewReservation);
