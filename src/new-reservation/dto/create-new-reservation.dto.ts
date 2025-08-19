@@ -30,9 +30,9 @@ export class CreateNewReservationDto {
     @IsString()
     mobileNo: string;
 
-    // @ApiProperty()
-    // @IsString()
-    // mobileNo2: string;
+    @ApiProperty()
+    @IsString()
+    mobileNo2: string;
 
     @ApiProperty()
     @IsString()
@@ -70,21 +70,21 @@ export class CreateNewReservationDto {
     @IsString()
     country: string;
 
-    // @ApiProperty()
-    // @IsString()
-    // state: string;
+    @ApiProperty()
+    @IsString()
+    state: string;
 
-    // @ApiProperty()
-    // @IsString()
-    // city: string;
+    @ApiProperty()
+    @IsString()
+    city: string;
 
     @ApiProperty()
     @IsString()
     zipCode: string;
 
-    // @ApiProperty()
-    // @IsString()
-    // bookedBy: string;
+    @ApiProperty()
+    @IsString()
+    bookedBy: string;
 
     // @ApiProperty()
     // @IsString()

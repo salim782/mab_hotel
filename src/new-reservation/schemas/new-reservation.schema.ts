@@ -25,8 +25,8 @@ export class NewReservation{
     @Prop({required:true, type:String})
     mobileNo: string;
 
-    // @Prop({required:true, type:String})
-    // mobileNo2: string;
+    @Prop({type:String})
+    mobileNo2: string;
 
     @Prop({required:true, type:String})
     address: string;
@@ -56,17 +56,17 @@ export class NewReservation{
     country: string;
 
 
-    // @Prop({type:String})
-    // state: string;
+    @Prop({type:String})
+    state: string;
 
-    // @Prop({type:String})
-    // city: string;
+    @Prop({type:String})
+    city: string;
 
     @Prop({required:true, type:String})
     zipCode: string;
 
-    // @Prop({type:String})
-    // bookedBy: string;
+    @Prop({type:String})
+    bookedBy: string;
 
     // @Prop({type:String})
     // transportMode: string;
