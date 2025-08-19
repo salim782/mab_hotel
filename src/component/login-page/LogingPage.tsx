@@ -43,76 +43,75 @@ const LogingPage = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex">
-      {/* Left Side Image with Text */}
-      <div className="w-1/2 relative">
-        <img
-          src="/home_image/hotel2.jpg"
-          alt="Hotel"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute bottom-10 left-10 text-white">
-          <h2 className="text-3xl font-semibold drop-shadow-lg">
-            PERFECT STAY FOR <br /> YOUR PERFECT VACATION
-          </h2>
-        </div>
+    <div className="relative min-h-screen flex items-center justify-center">
+      {/* Background Image */}
+      <img
+        src="/home_image/hotel2.jpg"
+        alt="Hotel"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Overlay for dark effect (optional) */}
+      <div className="absolute inset-0 bg-black/10"></div>
+
+     {/* Login Card Centered with Transparent Glass Effect */}
+      {/* Login Card Centered with Transparent Glass Effect */}
+      <div className="relative w-full h-full flex items-center justify-center">
+  <Card
+    className="w-full max-w-md !bg-black/20 backdrop-blur-xs shadow-2xl rounded-xl p-8 !border-none text-white text-2xl"
+  >
+    <div className="text-center mb-6">
+      <Title level={2} className="!text-white !text-5xl">
+        Mab Hotel Login
+      </Title>
+      <Text className="!text-white !text-xl opacity-80">
+        Welcome back! Please login to continue.
+      </Text>
+    </div>
+
+    <Form layout="vertical" onFinish={onFinish}>
+      <Form.Item
+        label={<span className="text-white !text-lg">Email</span>}
+        name="email"
+        rules={[
+          { required: true, message: "Please enter your email" },
+          { type: "email", message: "Enter a valid email" },
+        ]}
+      >
+        <Input size="large" placeholder="you@example.com" />
+      </Form.Item>
+
+      <Form.Item
+        label={<span className="text-white !text-lg">Password</span>}
+        name="password"
+        rules={[{ required: true, message: "Please enter your password" }]}
+      >
+        <Input.Password size="large" placeholder="••••••••" />
+      </Form.Item>
+
+      <div className="flex justify-between mb-4 text-lg">
+        <Link href="/signup">
+          <Text className="!text-md !text-white hover:underline">
+            Create Account
+          </Text>
+        </Link>
+        <Link href="/forgotpassword">
+          <Text className="!text-md !text-white hover:underline">
+            Forgot Password
+          </Text>
+        </Link>
       </div>
 
-      {/* Right Side Form with Curved + Transparent Effect */}
-      <div className="w-1/2 bg-white flex items-center justify-center relative rounded-l-[50%] shadow-xl">
-    
-        <Card
-          className="w-full max-w-md border-none shadow-lg rounded-2xl p-8 
-                     transition-transform transform hover:scale-105 hover:shadow-2xl hover:shadow-black/60 bg-transparent"
-        >
-          <div className="text-center mb-6">
-            <Title level={2}>Mab Hotel Login</Title>
-            <Text type="secondary">
-              Welcome back! Please login to continue.
-            </Text>
-          </div>
-
-          <Form layout="vertical" onFinish={onFinish}>
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: "Please enter your email" },
-                { type: "email", message: "Enter a valid email" },
-              ]}
-            >
-              <Input size="large" placeholder="you@example.com" />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: "Please enter your password" }]}
-            >
-              <Input.Password size="large" placeholder="••••••••" />
-            </Form.Item>
-
-            <div className="flex justify-between mb-4">
-              <Link href="/signup">
-                <Text className="text-blue-600 hover:underline">
-                  Create Account
-                </Text>
-              </Link>
-              <Link href="/forgotpassword">
-                <Text className="text-blue-600 hover:underline">
-                  Forgot Password
-                </Text>
-              </Link>
-            </div>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit" size="large" block>
-                Login
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" size="large" block>
+          Login
+        </Button>
+      </Form.Item>
+    </Form>
+  </Card>
       </div>
+
+
     </div>
   );
 };
