@@ -60,6 +60,7 @@ const LogingPage = () => {
 
       {/* Right Side Form with Curved + Transparent Effect */}
       <div className="w-1/2 bg-white flex items-center justify-center relative rounded-l-[50%] shadow-xl">
+    
         <Card
           className="w-full max-w-md border-none shadow-lg rounded-2xl p-8 
                      transition-transform transform hover:scale-105 hover:shadow-2xl hover:shadow-black/60 bg-transparent"
