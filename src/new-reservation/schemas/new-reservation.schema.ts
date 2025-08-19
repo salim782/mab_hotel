@@ -68,19 +68,19 @@ export class NewReservation{
     @Prop({required:true, type:String})
     bookedBy: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     transportMode: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     confirmVoucherNo: string;
 
-    @Prop({required:true, type:String})
+    @Prop({type:String})
     businessMarketSource: string;
 
     @Prop({required:true,type:String})
     company: string;
 
-    @Prop({required:true,type:String})
+    @Prop({type:String})
     companyGstNo: string;
 }
 
