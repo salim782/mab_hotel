@@ -11,6 +11,7 @@ import { ReservationBookingDetailsModule } from './reservation-booking-details/r
 import { ReservationCalenderModule } from './reservation-calender/reservation-calender.module';
 // import { APP_GUARD } from '@nestjs/core';
 // import { RolesGuard } from './common/roles.guard';
+import { CountryModule } from './country/country.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { ReservationCalenderModule } from './reservation-calender/reservation-ca
     RoomsModule,
     NewReservationModule,
     ReservationBookingDetailsModule,
-    ReservationCalenderModule
+    ReservationCalenderModule,
+    CountryModule
     ],
   controllers: [AppController],
   providers: [AppService],

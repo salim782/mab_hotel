@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: '*', // Replace with the actual origin of your Next.js app
+    origin: 'http://localhost:3001', // Replace with the actual origin of your Next.js app
     methods: 'GET,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
