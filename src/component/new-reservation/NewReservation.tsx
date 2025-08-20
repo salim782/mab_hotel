@@ -67,6 +67,7 @@ export default function NewReservation() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+
         },
         body: JSON.stringify(values),
       });
@@ -74,7 +75,6 @@ export default function NewReservation() {
       console.log("reservation created:", data);
 
       if (response.ok) {
-        localStorage.setItem("token", data.token);
         toast.success("Reservation created!");
       } else {
         toast.error(data.message || "Creation failed!");
@@ -174,6 +174,16 @@ export default function NewReservation() {
               <Input placeholder="Enter mobile number" />
             </Form.Item>
           </Col>
+
+          <Col xs={24} sm={12} md={6}>
+            <Form.Item name="mobile2" label="Mobile No. 2">
+              <Input placeholder="Enter alternate number" />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* Row 4 */}
+        <Row gutter={16}>
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="country" label="Country">
               <Select placeholder="Select Country">
@@ -182,20 +192,12 @@ export default function NewReservation() {
               </Select>
             </Form.Item>
           </Col>
-        </Row>
-
-        {/* Row 4 */}
-        <Row gutter={16}>
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="state" label="State">
               <Select placeholder="Select State" />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} md={6}>
-            <Form.Item name="mobile2" label="Mobile No. 2">
-              <Input placeholder="Enter alternate number" />
-            </Form.Item>
-          </Col>
+         
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="city" label="City">
               <Select placeholder="Select City" />
@@ -238,7 +240,7 @@ export default function NewReservation() {
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Form.Item name="employeeType" label="Emp">
+            <Form.Item name="employeeType" label="Employee ID">
               <Input placeholder="Enter Employee ID" />
             </Form.Item>
           </Col>

@@ -20,9 +20,10 @@ const SignupPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
+        credentials:"include",
       });
       const data = await response.json();
-        localStorage.setItem("token", data.token);
+        // localStorage.setItem("token", data.token);
 
       console.log('signup successful:', data);
 
