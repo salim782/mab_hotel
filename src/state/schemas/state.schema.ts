@@ -1,16 +1,15 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document, Types } from "mongoose";
-import { Country } from "./country.schema";
 
 export type StateDocument = State & Document;
 
-@Schema({ timestamps: true })
+@Schema()
 export class State {
-  @Prop({ required: true , type: String})
+  @Prop({ required: true })
   name: string;
 
-  @Prop({ type: Types.ObjectId, ref: Country.name, required: true })
-  country: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'Country', required: true })
+  country: string;
 }
 
 export const StateSchema = SchemaFactory.createForClass(State);

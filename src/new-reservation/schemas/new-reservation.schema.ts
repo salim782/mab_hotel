@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Types } from "mongoose";
 
 export type NewReservationDocument = NewReservation & Document
 @Schema({timestamps:true})
@@ -52,15 +53,23 @@ export class NewReservation{
     @Prop({type:String})
     departureTo: string;
 
-    @Prop({type:String})
-    country: string;
+    // @Prop({type:String})
+    // country: string;
 
 
-    @Prop({type:String})
-    state: string;
+    // @Prop({type:String})
+    // state: string;
 
-    @Prop({type:String})
-    city: string;
+    // @Prop({type:String})
+    // city: string;
+     @Prop({ type: Types.ObjectId, ref: 'Country', required: true })
+  country: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'State', required: true })
+  state: string;
+
+  @Prop({ type: Types.ObjectId, ref: 'City', required: true })
+  city: string;
 
     @Prop({required:true, type:String})
     zipCode: string;
