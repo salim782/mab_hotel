@@ -9,36 +9,61 @@ import type { CheckboxOptionType, TableColumnsType } from "antd";
 
 const { Option } = Select;
 
-interface DataType {
+export interface Reservation {
   key: React.Key;
-  name: string;
-  age: number;
-  address: string;
+  title?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  pickDropFacility?: string;
+  visitPurpose?: string;
+  arrivalFrom?: string;
+  departureTo?: string;
+  reservationType?: string;
+  mobileNo?: string;
+  mobile2?: string;
+  country?: string;
+  state?: string;
+  city?: string;
+  zipCode?: string;
+  address?: string;
+  bookedBy?: string;
+  dob?: string;
+  gender?: string;
+  employeeType?: string;
 }
 
-const columns: TableColumnsType<DataType> = [
-  { title: "Column 1", dataIndex: "address", key: "1" },
-  { title: "Column 2", dataIndex: "address", key: "2" },
-  { title: "Column 3", dataIndex: "address", key: "3" },
-  { title: "Column 4", dataIndex: "address", key: "4" },
-  { title: "Column 5", dataIndex: "address", key: "5" },
-  { title: "Column 6", dataIndex: "address", key: "6" },
-  { title: "Column 7", dataIndex: "address", key: "7" },
-  { title: "Column 8", dataIndex: "address", key: "8" },
-];
-
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York Park",
+const columns: TableColumnsType<Reservation> = [
+  { 
+    title: "Name", 
+    key: "1", 
+    render: (_, record) => `${record.firstName} ${record.lastName}` 
   },
+  { title: "Email", dataIndex: "email", key: "2" },
+  { title: "Pick and Drop Facility", dataIndex: "pickDropFacility", key: "3" },
+  { title: "Arrival From", dataIndex: "arrivalFrom", key: "4" },
+  { title: "Departure To", dataIndex: "departureTo", key: "5" },
+  { title: "Reservation Type", dataIndex: "reservationType", key: "6" },
+  { title: "Mobile No", dataIndex: "mobileNo", key: "7" },
+  { title: "Country", dataIndex: "country", key: "8" },
+  { title: "State", dataIndex: "state", key: "9" },
+  { title: "City", dataIndex: "city", key: "10" },
+  { title: "Address", dataIndex: "address", key: "11" },
+  { title: "Booked By", dataIndex: "bookedBy", key: "12" },
+  { title: "Gender", dataIndex: "gender", key: "13" },
+  { title: "Employee Type", dataIndex: "employeeType", key: "14" },
+  { title: "DOB", dataIndex: "dob", key: "15" },
+
   {
-    key: "2",
-    name: "Jim Green",
-    age: 40,
-    address: "London Park",
+    title: "Action",
+    key: "action",
+    render: (_, record) => (
+      <span>
+        <a onClick={() => console.log("Edit", record)}>Edit</a>
+        <Divider type="vertical" />
+        <a onClick={() => console.log("Delete", record)}>Delete</a>
+      </span>
+    ),
   },
 ];
 
@@ -49,6 +74,7 @@ export default function NewReservation() {
   const router = useRouter();
 
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  const [data, setData] = useState<Reservation[]>([]);
 
   const options = columns.map(({ key, title }) => ({
     label: title,
@@ -62,22 +88,31 @@ export default function NewReservation() {
 
   const onFinish = async (values: any) => {
     console.log("Form Values:", values);
+    
     try {
       const response = await fetch("http://localhost:3000/new-reservation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-
         },
         body: JSON.stringify(values),
       });
-      const data = await response.json();
-      console.log("reservation created:", data);
+      const saved = await response.json();
+      console.log("reservation created:", saved);
 
       if (response.ok) {
+         setData((prev) => [
+          ...prev,
+          {
+            key: saved.id || String(prev.length + 1), // agar backend id bhejta hai to use karo
+            ...saved,
+          },
+        ]);
+
         toast.success("Reservation created!");
+        form.resetFields(); 
       } else {
-        toast.error(data.message || "Creation failed!");
+        toast.error(saved.message || "Creation failed!");
       }
     } catch (error) {
       console.error("Fetch error:", error);
@@ -197,7 +232,7 @@ export default function NewReservation() {
               <Select placeholder="Select State" />
             </Form.Item>
           </Col>
-         
+
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="city" label="City">
               <Select placeholder="Select City" />
@@ -271,13 +306,13 @@ export default function NewReservation() {
 
       <Divider>Columns displayed</Divider>
       <Checkbox.Group
-        value={checkedList}
+        // value={checkedList}
         options={options as CheckboxOptionType[]}
         onChange={(value) => {
           setCheckedList(value as string[]);
         }}
       />
-      <Table<DataType>
+      <Table<Reservation>
         columns={newColumns}
         dataSource={data}
         style={{ marginTop: 24 }}
