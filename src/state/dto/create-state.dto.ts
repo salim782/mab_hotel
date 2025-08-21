@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateStateDto {
-    @ApiProperty()
+  @ApiProperty()
   name: string;
 
   @ApiProperty()

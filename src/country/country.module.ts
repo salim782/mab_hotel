@@ -6,8 +6,8 @@ import { CountryController } from './country.controller';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Country.name, schema: CountrySchema }])],
-  providers: [CountryService],
   controllers: [CountryController],
-  exports: [CountryService],
+  providers: [CountryService],
+  exports: [MongooseModule],
 })
 export class CountryModule {}

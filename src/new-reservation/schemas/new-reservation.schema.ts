@@ -20,7 +20,7 @@ export class NewReservation{
     // @Prop({required:true, type:String})
     // emailAlt: string;
 
-    @Prop({required:true, type:String})
+    @Prop({ type:String})
     reservationType: string;
 
     @Prop({required:true, type:String})

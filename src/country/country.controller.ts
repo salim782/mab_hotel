@@ -1,18 +1,23 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { CountryService } from './country.service';
-import { CreateCountryDto } from './dto/create-country.dto';
 
 @Controller('countries')
 export class CountryController {
   constructor(private readonly countryService: CountryService) {}
 
-  @Post()
-  create(@Body() dto: CreateCountryDto) {
-    return this.countryService.create(dto);
+
+  @Get('seed')
+  async seed() {
+    return this.countryService.seedCountries();
   }
 
+  
   @Get()
-  findAll() {
+  async getAllCountries() {
     return this.countryService.findAll();
   }
+  // @Post('seed') 
+  // async seed() { 
+  //   return this.countryService.seedCountries(); 
+  // }
 }

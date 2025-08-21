@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { City } from './schemas/city.schema';
-import { CreateCityDto } from './dto/create-city.dto';
+import { Country } from '../country/schemas/country.schema';
+import { State as StateCSC, City } from 'country-state-city';
 
 @Injectable()
 export class CityService {
-  constructor(@InjectModel(City.name) private model: Model<City>) {}
+  constructor(@InjectModel(Country.name) private countryModel: Model<Country>) {}
 
-  async create(dto: CreateCityDto) {
-    return await this.model.create(dto);
-  }
+  async findAllByState(countryId: string, stateCode: string) {
+    // DB से country निकालो
+    const country = await this.countryModel.findById(countryId);
+    if (!country) {
+      throw new Error('Country not found');
+    }
 
-  async findByState(stateId: string) {
-    return await this.model.find({ state: stateId });
+    // अब cities निकालो उस state की (country.code aur state.code se)
+    return City.getCitiesOfState(country.code, stateCode);
   }
 }
