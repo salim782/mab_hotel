@@ -9,6 +9,7 @@ import {
 import { Button, Grid, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
+import { useNavigation } from "@/app/NavigationProvider";
 const { useBreakpoint } = Grid;
 
 const { Header, Sider, Content } = Layout;
@@ -57,7 +58,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   const handleNavigate = (path: string, key: string) => {
     setSelectedKeys([key]);
-    router.push(path);
+    navigate(path);
   };
 
   const items = [
@@ -165,6 +166,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   ];
 
   const screens = useBreakpoint();
+  const { navigate, setLoading } = useNavigation();
 
   const isMobile = !screens.md;
 

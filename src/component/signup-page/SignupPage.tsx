@@ -5,12 +5,15 @@ import { Form, Input, Button, Typography, Card, message } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { useNavigation } from '@/app/NavigationProvider';
 
 const { Title, Text } = Typography;
 
 const SignupPage = () => {
-  const [loading, setLoading]=useState(false)
+  // const [loading, setLoading]=useState(false)
   const router = useRouter();
+     const { navigate, setLoading } = useNavigation();
+  
   const onFinish = async (values: any) => {
     setLoading(true)
     try {
@@ -29,7 +32,7 @@ const SignupPage = () => {
 
       if (response.ok) {
         toast.success('Create Account successful!');
-        router.push('/login');
+        navigate('/login');
       } else {
         toast.error(data.message || 'signup failed!');
       }
@@ -97,7 +100,7 @@ const SignupPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" size="large" block loading={loading}>
+            <Button type="primary" htmlType="submit" size="large" block>
               Sign Up
             </Button>
           </Form.Item>

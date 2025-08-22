@@ -1,21 +1,22 @@
 "use client"
 
+import { useNavigation } from "@/app/NavigationProvider";
 import { Spin } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function HomePage() {
-   const router = useRouter();
+   const { navigate } = useNavigation();
 
-   const [loading, setLoading] = useState(false);
+  //  const [loading, setLoading] = useState(false);
 
-  const handleClick = () => {
-    setLoading(true);
-    setTimeout(() => {
-      router.push("/login");
-    }, 1500);
-  };
+  // const handleClick = () => {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     router.push("/login");
+  //   }, 1500);
+  // };
   return (
     <main className="relative min-h-screen bg-gray-900 text-white">
       {/* Background Video with Overlay */}
@@ -52,7 +53,7 @@ export default function HomePage() {
           <Link href="/login">Login</Link>
         </button> */}
         {/* <Link href="/login"> */}
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold" onClick={handleClick}>
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold" onClick={()=>navigate("/login")}>
             Login
           </button>
         {/* </Link> */}
@@ -333,11 +334,11 @@ export default function HomePage() {
         </div>
       </footer>
 
-       {loading && (
+       {/* {loading && (
         <div className="fixed !inset-0 bg-black/80 !bg-opacity-30 flex items-center justify-center !z-50">
           <Spin size="large" />
         </div>
-      )}
+      )} */}
     </main>
   );
 }

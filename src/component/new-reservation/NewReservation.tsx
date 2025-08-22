@@ -3,7 +3,7 @@ import { Form, Input, Select, DatePicker, Button, Row, Col } from "antd";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox, Divider, Table } from "antd";
 import type { CheckboxOptionType, TableColumnsType } from "antd";
 
@@ -34,10 +34,10 @@ export interface Reservation {
 }
 
 const columns: TableColumnsType<Reservation> = [
-  { 
-    title: "Name", 
-    key: "1", 
-    render: (_, record) => `${record.firstName} ${record.lastName}` 
+  {
+    title: "Name",
+    key: "1",
+    render: (_, record) => `${record.firstName} ${record.lastName}`,
   },
   { title: "Email", dataIndex: "email", key: "2" },
   { title: "Pick and Drop Facility", dataIndex: "pickDropFacility", key: "3" },
@@ -76,6 +76,19 @@ export default function NewReservation() {
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
   const [data, setData] = useState<Reservation[]>([]);
 
+  const [countries, setCountries] = useState<
+    { lable: string; value: string }[]
+  >([]);
+
+  const [city, setCity] = useState<
+    { lable: string; value: string }[]
+  >([]);
+
+  const [states, setStates] = useState<{ lable: string; value: string }[]>([]);
+  const [countryId, setCountryId] = useState<string>("");
+  const [stateCode, setStateCode] = useState<string>("");
+
+
   const options = columns.map(({ key, title }) => ({
     label: title,
     value: key,
@@ -86,9 +99,72 @@ export default function NewReservation() {
     hidden: !checkedList.includes(item.key as string),
   }));
 
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/countries");
+        const result = await res.json();
+        console.log("Raw Countries API:", result);
+
+        const formatted = result.map((c: any) => ({
+          label: c.name,
+          value: c._id,
+        }));
+        console.log("Countries Options:", formatted);
+        setCountries(formatted);
+      } catch (error) {
+        console.error("Failed to fetch countries:", error);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
+    if (!countryId) return; // 👈 guard
+    const fetchStates = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/states/${countryId}`);
+        if (!res.ok) throw new Error("Failed to fetch states");
+        const result = await res.json();
+        console.log("Raw states API:", result);
+        const formatted = result.map((c: any) => ({
+          label: c.name,
+          value: c.isoCode,
+        }));
+        console.log("states Options:", formatted);
+        setStates(formatted);
+      } catch (error) {
+        console.error("Failed to fetch states:", error);
+      }
+    };
+    fetchStates();
+  }, [countryId]);
+
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const res = await fetch(`http://localhost:3000/cities/${countryId}/${stateCode}`);
+        const result = await res.json();
+        console.log("Raw city API:", result);
+
+        const formatted = result.map((c: any) => ({
+          label: c.name,
+          value: c.isoCode,
+        }));
+        console.log("city Options:", formatted);
+        setCity(formatted);
+      } catch (error) {
+        console.error("Failed to fetch city:", error);
+      }
+    };
+    fetchCountries();
+  }, [stateCode]);
+
+
   const onFinish = async (values: any) => {
     console.log("Form Values:", values);
-    
+
     try {
       const response = await fetch("http://localhost:3000/new-reservation", {
         method: "POST",
@@ -101,16 +177,16 @@ export default function NewReservation() {
       console.log("reservation created:", saved);
 
       if (response.ok) {
-         setData((prev) => [
+        setData((prev) => [
           ...prev,
           {
-            key: saved.id || String(prev.length + 1), // agar backend id bhejta hai to use karo
+            key: saved.id || String(prev.length + 1),
             ...saved,
           },
         ]);
 
         toast.success("Reservation created!");
-        form.resetFields(); 
+        form.resetFields();
       } else {
         toast.error(saved.message || "Creation failed!");
       }
@@ -221,21 +297,22 @@ export default function NewReservation() {
         <Row gutter={16}>
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="country" label="Country">
-              <Select placeholder="Select Country">
-                <Option value="india">India</Option>
-                <Option value="usa">USA</Option>
-              </Select>
+              <Select
+                placeholder="Select Country"
+                options={countries}
+                onChange={(value) => setCountryId(value)} // 👈 yahi se countryId milega
+              />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="state" label="State">
-              <Select placeholder="Select State" />
+              <Select placeholder="Select State" options={states} onChange={(value) => setStateCode(value)} />
             </Form.Item>
           </Col>
 
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="city" label="City">
-              <Select placeholder="Select City" />
+              <Select placeholder="Select City" options={city}/>
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>

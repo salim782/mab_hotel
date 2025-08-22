@@ -6,11 +6,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { useNavigation } from "@/app/NavigationProvider";
 
 const { Title, Text } = Typography;
 
 const LogingPage = () => {
   const router = useRouter();
+   const { navigate, setLoading } = useNavigation();
 
   const onFinish = async (values: any) => {
     try {
@@ -31,7 +33,7 @@ const LogingPage = () => {
         const role = payload.role;
 
         if (role === "admin") {
-          router.push("/admin");
+          navigate("/admin");
         } else {
           router.push("/dashboard");
         }
