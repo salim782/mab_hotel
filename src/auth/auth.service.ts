@@ -17,6 +17,7 @@ import { Response } from 'express';
 @Injectable()
 export class AuthService {
   private transporter: any;
+
   constructor(
     @InjectModel(Users.name)
     private userModel: Model<Users>,
@@ -203,5 +204,18 @@ async resetPassword(dto: ResetPasswordDto) {
 
   return { message: 'Password reset successful' };
 }
+}
+
+//  Reusable cookie setter
+export function setLoginCookie(res: Response, jwtToken: string) {
+  const isProd = process.env.NODE_ENV === 'production';
+
+  res.cookie('auth_token', jwtToken, {
+    httpOnly: true, // cannot be accessed by JS → secure
+    secure: isProd, // only HTTPS in production
+    sameSite: isProd ? 'none' : 'lax',
+    path: '/',
+    maxAge: 1000 * 60 * 60 * 24, // 1 day
+  });
 
 }
