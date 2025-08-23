@@ -24,7 +24,7 @@ export default function NavigationProvider({ children }: { children: React.React
   const navigate = (url: string) => {
     setLoading(true);
     router.push(url);
-    setTimeout(() => setLoading(false), 500);
+    setTimeout(() => setLoading(false), 200);
   };
 
   return (

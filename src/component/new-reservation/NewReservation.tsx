@@ -80,14 +80,12 @@ export default function NewReservation() {
     { lable: string; value: string }[]
   >([]);
 
-  const [city, setCity] = useState<
-    { lable: string; value: string }[]
-  >([]);
+  const [city, setCity] = useState<{ lable: string; value: string }[]>([]);
 
   const [states, setStates] = useState<{ lable: string; value: string }[]>([]);
   const [countryId, setCountryId] = useState<string>("");
   const [stateCode, setStateCode] = useState<string>("");
-
+  // const [countryCode, setCountryCode] = useState<string>("");
 
   const options = columns.map(({ key, title }) => ({
     label: title,
@@ -140,27 +138,37 @@ export default function NewReservation() {
     fetchStates();
   }, [countryId]);
 
-
   useEffect(() => {
-    const fetchCountries = async () => {
+    if (!countryId || !stateCode) {
+      setCity([]);
+      return;
+    }
+
+    const fetchCities = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/cities/${countryId}/${stateCode}`);
+        const res = await fetch(
+          `http://localhost:3000/cities/${countryId}/${stateCode}`
+        );
+        console.log("Raw city API:", res);
+
+        if (!res.ok) throw new Error("Failed to fetch");
+
         const result = await res.json();
-        console.log("Raw city API:", result);
 
         const formatted = result.map((c: any) => ({
           label: c.name,
-          value: c.isoCode,
+          value: c.name,
         }));
-        console.log("city Options:", formatted);
+
+        console.log("City Options:", formatted);
         setCity(formatted);
       } catch (error) {
         console.error("Failed to fetch city:", error);
       }
     };
-    fetchCountries();
-  }, [stateCode]);
 
+    fetchCities();
+  }, [countryId, stateCode]);
 
   const onFinish = async (values: any) => {
     console.log("Form Values:", values);
@@ -306,13 +314,21 @@ export default function NewReservation() {
           </Col>
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="state" label="State">
-              <Select placeholder="Select State" options={states} onChange={(value) => setStateCode(value)} />
+              <Select
+                placeholder="Select State"
+                options={states}
+                onChange={(value) => setStateCode(value)}
+              />
             </Form.Item>
           </Col>
 
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="city" label="City">
-              <Select placeholder="Select City" options={city}/>
+              <Select
+                placeholder="Select City"
+                options={city}
+                onChange={(value) => form.setFieldValue("city", value)}
+              />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>
@@ -331,7 +347,14 @@ export default function NewReservation() {
           </Col>
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="bookedBy" label="Booked By">
-              <Select placeholder="Select Booked By" />
+              <Select
+                placeholder="Select Booked By"
+                options={[
+                  { label: "Admin", value: "admin" },
+                  { label: "Front Desk", value: "frontdesk" },
+                  { label: "Call Center", value: "callcenter" },
+                ]}
+              />
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>

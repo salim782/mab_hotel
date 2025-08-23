@@ -1,11 +1,6 @@
 "use client"
 
 import { useNavigation } from "@/app/NavigationProvider";
-import { Spin } from "antd";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-
 export default function HomePage() {
    const { navigate } = useNavigation();
 

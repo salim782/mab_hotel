@@ -35,7 +35,7 @@ const LogingPage = () => {
         if (role === "admin") {
           navigate("/admin");
         } else {
-          router.push("/dashboard");
+          navigate("/dashboard");
         }
       } else {
         toast.error(data.message || "Login failed!");
