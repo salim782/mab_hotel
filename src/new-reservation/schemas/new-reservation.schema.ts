@@ -62,13 +62,13 @@ export class NewReservation{
 
     // @Prop({type:String})
     // city: string;
-     @Prop({ type: Types.ObjectId, ref: 'Country', required: true })
+     @Prop({ type: Types.ObjectId, ref: 'Country',})
   country: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'State', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'State',})
   state: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'City', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'City',})
   city: string;
 
     @Prop({required:true, type:String})
