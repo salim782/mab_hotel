@@ -9,9 +9,18 @@ import { InjectModel } from '@nestjs/mongoose';
 export class NewReservationService {
   constructor(@InjectModel(NewReservation.name)private model:Model<NewReservation>){}
 
-  async create(createNewReservationDto: CreateNewReservationDto) {
-    return await this.model.create(createNewReservationDto);
+  // async create(createNewReservationDto: CreateNewReservationDto) {
+  //   return await this.model.create(createNewReservationDto);
+  // }
+
+  async create(createNewReservationDto: CreateNewReservationDto, user:any){
+    const reservationData={
+      ...createNewReservationDto,
+      bookedBy: user?.name || user?.email || user?.id
+    };
+    return await this.model.create(reservationData)
   }
+
 
   async findAll() {
     return await this.model.find();
