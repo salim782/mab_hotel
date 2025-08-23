@@ -15,10 +15,10 @@ import { LoginDto } from './dto/login.dto';
 
 
 // ✅ Reusable cookie helpers
-function setLoginCookie(res: Response, jwtToken: string) {
+function setLoginCookie(res: Response, token: string) {
   const isProd = process.env.NODE_ENV === 'production';
 
-  res.cookie('auth_token', jwtToken, {
+  res.cookie('auth_token',token, {
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? 'none' : 'lax',
@@ -29,7 +29,7 @@ function setLoginCookie(res: Response, jwtToken: string) {
 
 function clearLoginCookie(res: Response) {
   res.clearCookie('auth_token', {
-    httpOnly: true,
+    // httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     path: '/',
