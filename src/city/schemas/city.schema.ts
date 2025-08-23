@@ -7,7 +7,7 @@ export class City extends Document {
   name: string;
 
   @Prop({ type: Types.ObjectId, ref: 'State', required: true })
-  stateId: Types.ObjectId;
+  state: Types.ObjectId;
 }
 
 export const CitySchema = SchemaFactory.createForClass(City);
