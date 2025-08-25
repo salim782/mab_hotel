@@ -1,22 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Req } from '@nestjs/common';
 import { NewReservationService } from './new-reservation.service';
 import { CreateNewReservationDto } from './dto/create-new-reservation.dto';
 import { UpdateNewReservationDto } from './dto/update-new-reservation.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('new-reservation')
 export class NewReservationController {
   constructor(private readonly newReservationService: NewReservationService) {}
 
-  // @Post()
-  // create(@Body() createNewReservationDto: CreateNewReservationDto) {
-  //   return this.newReservationService.create(createNewReservationDto);
-  // }
   @Post()
-  @UseGuards(JwtAuthGuard) // 👈 Auth Guard से user मिलेगा
-  create(@Body() createNewReservationDto: CreateNewReservationDto, @Request() req) {
-    return this.newReservationService.create(createNewReservationDto, req.user);
+  @UseGuards(AuthGuard('jwt'))
+  @Post()
+  async create(@Body() dto: CreateNewReservationDto, @Req() req) {
+    return this.newReservationService.create(dto, req.user);
   }
+
 
   @Get()
   findAll() {

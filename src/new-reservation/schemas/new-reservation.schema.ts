@@ -74,6 +74,9 @@ export class NewReservation{
     @Prop({required:true, type:String})
     zipCode: string;
 
+    // @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+    // bookedBy: string; 
+
     @Prop({type:String})
     bookedBy: string;
 

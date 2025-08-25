@@ -9,8 +9,6 @@ import { RoomsModule } from './rooms/rooms.module';
 import { NewReservationModule } from './new-reservation/new-reservation.module';
 import { ReservationBookingDetailsModule } from './reservation-booking-details/reservation-booking-details.module';
 import { ReservationCalenderModule } from './reservation-calender/reservation-calender.module';
-// import { APP_GUARD } from '@nestjs/core';
-// import { RolesGuard } from './common/roles.guard';
 import { CountryModule } from './country/country.module';
 import { StateModule } from './state/state.module';
 import { CityModule } from './city/city.module';
@@ -30,7 +28,7 @@ import { CityModule } from './city/city.module';
     ReservationCalenderModule,
     CountryModule,
     StateModule,
-    CityModule
+    CityModule,
     ],
   controllers: [AppController],
   providers: [AppService],
