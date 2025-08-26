@@ -23,8 +23,15 @@ async create(dto: CreateNewReservationDto, user: any) {
 }
 
 
-  async findAll() {
-    return await this.model.find();
+  // async findAll() {
+  //   return await this.model.find();
+  // }
+  async findAll(){
+    return this.model.find()
+    .populate('country','name code')
+    .populate('state', 'name isocode')
+    .populate('city','name')
+    .exec();
   }
 
   async findOne(id: string) {
