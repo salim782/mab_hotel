@@ -19,26 +19,14 @@ async create(dto: CreateNewReservationDto, user: any) {
     bookedBy: user.role,     
   });
 
-  const saved = await reservation.save();  
-
-   // 👇 yahan populate kar do
-  return this.model.findById(saved._id)
-    .populate('country', 'name code -_id')
-    .populate('state', 'name isocode -_id')
-    .populate('city', 'name -_id')
-    .exec();
+  const savedReservation = await reservation.save();
+  // populate country field before returning
+  return savedReservation.populate('country');
 }
 
 
-  // async findAll() {
-  //   return await this.model.find();
-  // }
-  async findAll(){
-    return this.model.find()
-    .populate('country','name code')
-    .populate('state', 'name isocode')
-    .populate('city','name')
-    .exec();
+  async findAll() {
+    return await this.model.find();
   }
 
   async findOne(id: string) {

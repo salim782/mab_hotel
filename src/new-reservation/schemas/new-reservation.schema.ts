@@ -63,7 +63,7 @@ export class NewReservation{
     // @Prop({type:String})
     // city: string;
      @Prop({ type: Types.ObjectId, ref: 'Country',})
-  country: string;
+     country: string;
 
   @Prop({ type: Types.ObjectId, ref: 'State',})
   state: string;
