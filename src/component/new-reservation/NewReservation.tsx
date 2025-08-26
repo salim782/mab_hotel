@@ -22,9 +22,9 @@ export interface Reservation {
   reservationType?: string;
   mobileNo?: string;
   mobile2?: string;
-  country?: string;
-  state?: string;
-  city?: string;
+   country?: { _id: string; name: string; code: string };
+  state?: { _id: string; name: string; isoCode: string };
+  city?: { _id: string; name: string };
   zipCode?: string;
   address?: string;
   bookedBy?: string;
@@ -45,9 +45,22 @@ const columns: TableColumnsType<Reservation> = [
   { title: "Departure To", dataIndex: "departureTo", key: "5" },
   { title: "Reservation Type", dataIndex: "reservationType", key: "6" },
   { title: "Mobile No", dataIndex: "mobileNo", key: "7" },
-  { title: "Country", dataIndex: "country", key: "8" },
-  { title: "State", dataIndex: "state", key: "9" },
-  { title: "City", dataIndex: "city", key: "10" },
+  {
+    title: "Country",
+    key: "8",
+    render: (record) => record.country?.name || "-",
+  },
+{
+  title: "State",
+  key: "9",
+  render: (_, record) => record.state?.name || "-",
+},
+{
+  title: "City",
+  key: "10",
+  render: (_, record) => record.city?.name || "-",
+},
+
   { title: "Address", dataIndex: "address", key: "11" },
   { title: "Booked By", dataIndex: "bookedBy", key: "12" },
   { title: "Gender", dataIndex: "gender", key: "13" },
@@ -180,6 +193,7 @@ export default function NewReservation() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
+        credentials: 'include'
       });
       const saved = await response.json();
       console.log("reservation created:", saved);
@@ -345,18 +359,7 @@ export default function NewReservation() {
               <Input.TextArea rows={2} placeholder="Enter address" />
             </Form.Item>
           </Col>
-          <Col xs={24} sm={12} md={6}>
-            <Form.Item name="bookedBy" label="Booked By">
-              <Select
-                placeholder="Select Booked By"
-                options={[
-                  { label: "Admin", value: "admin" },
-                  { label: "Front Desk", value: "frontdesk" },
-                  { label: "Call Center", value: "callcenter" },
-                ]}
-              />
-            </Form.Item>
-          </Col>
+       
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="dob" label="DOB">
               <DatePicker style={{ width: "100%" }} />

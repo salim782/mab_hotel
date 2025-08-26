@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
-  console.log(token,"***************");
+  // console.log(token,"***************");
   
 
   if (!token && req.nextUrl.pathname.startsWith("/dashboard")) {

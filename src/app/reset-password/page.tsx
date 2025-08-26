@@ -1,12 +1,15 @@
 import AdminLayout from "@/component/layout/AdminLayout";
 import ResetPassword from "@/component/reset-password/ResetPassword";
-import React from "react";
+import React, { Suspense } from "react";
 
 const page = () => {
   return (
-    <div>
+    // <div>
+    //   <ResetPassword />
+    // </div>
+    <Suspense fallback={<div>Loading...</div>}>
       <ResetPassword />
-    </div>
+    </Suspense>
   );
 };
 

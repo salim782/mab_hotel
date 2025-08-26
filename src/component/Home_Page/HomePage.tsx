@@ -1,6 +1,7 @@
 "use client"
 
 import { useNavigation } from "@/app/NavigationProvider";
+import Link from "next/link";
 export default function HomePage() {
    const { navigate } = useNavigation();
 
@@ -47,11 +48,11 @@ export default function HomePage() {
         {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold">
           <Link href="/login">Login</Link>
         </button> */}
-        {/* <Link href="/login"> */}
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold" onClick={()=>navigate("/login")}>
+        <Link href="/login" prefetch>
+          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold">
             Login
           </button>
-        {/* </Link> */}
+        </Link>
       </nav>
 
       {/* Hero Section */}
