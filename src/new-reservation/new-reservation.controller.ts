@@ -10,8 +10,7 @@ export class NewReservationController {
   constructor(private readonly newReservationService: NewReservationService) {}
 
   @Post()
-  // @UseGuards(AuthGuard('jwt'))
-  @Post()
+  @UseGuards(AuthGuard('jwt'))
   async create(@Body() dto: CreateNewReservationDto, @Req() req) {
     return this.newReservationService.create(dto, req.user);
   }
