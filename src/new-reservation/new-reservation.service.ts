@@ -19,7 +19,14 @@ async create(dto: CreateNewReservationDto, user: any) {
     bookedBy: user.role,     
   });
 
-  return await reservation.save();
+  const saved = await reservation.save();  
+
+   // 👇 yahan populate kar do
+  return this.model.findById(saved._id)
+    .populate('country', 'name code -_id')
+    .populate('state', 'name isocode -_id')
+    .populate('city', 'name -_id')
+    .exec();
 }
 
 
