@@ -53,23 +53,23 @@ export class NewReservation{
     @Prop({type:String})
     departureTo: string;
 
-    // @Prop({type:String})
-    // country: string;
+    //  @Prop({ type: Types.ObjectId, ref: 'Country',})
+    //  country: string;
 
+    //  @Prop({ type: Types.ObjectId, ref: 'State',})
+    //  state: string;
 
-    // @Prop({type:String})
-    // state: string;
+    //  @Prop({ type: Types.ObjectId, ref: 'City',})
+    //  city: string;
+     @Prop({ required: true })
+  country: string;  // ✅ direct country name save hoga
 
-    // @Prop({type:String})
-    // city: string;
-     @Prop({ type: Types.ObjectId, ref: 'Country',})
-     country: string;
+  @Prop({ required: true })
+  state: string;    // ✅ direct state name save hoga
 
-  @Prop({ type: Types.ObjectId, ref: 'State',})
-  state: string;
+  @Prop({ required: true })
+  city: string;     // ✅ direct city name save hoga
 
-  @Prop({ type: Types.ObjectId, ref: 'City',})
-  city: string;
 
     @Prop({required:true, type:String})
     zipCode: string;

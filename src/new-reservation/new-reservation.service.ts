@@ -18,10 +18,11 @@ async create(dto: CreateNewReservationDto, user: any) {
     ...dto,
     bookedBy: user.role,     
   });
+  return await reservation.save()
 
-  const savedReservation = await reservation.save();
-  // populate country field before returning
-  return savedReservation.populate('country');
+  // const savedReservation = await reservation.save();
+  // return savedReservation.populate('country');
+
 }
 
 
