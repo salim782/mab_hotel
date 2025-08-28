@@ -41,8 +41,10 @@ export default function HomePage() {
         </div>
         <ul className="hidden md:flex gap-10 text-lg font-medium">
           <li className="cursor-pointer hover:text-yellow-400">Home</li>
+          <li className="cursor-pointer hover:text-yellow-400">About</li>
           <li className="cursor-pointer hover:text-yellow-400">Services</li>
           <li className="cursor-pointer hover:text-yellow-400">Contact</li>
+          
         </ul>
 
         {/* <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold">

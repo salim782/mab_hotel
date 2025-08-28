@@ -12,7 +12,7 @@ const { Title, Text } = Typography;
 
 const LogingPage = () => {
   const router = useRouter();
-   const { navigate, setLoading } = useNavigation();
+  const { navigate } = useNavigation();
 
   const onFinish = async (values: any) => {
     try {
@@ -27,7 +27,6 @@ const LogingPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // localStorage.setItem("token", data.token);
         toast.success("Login successful!");
         const payload = jwtDecode(data.token) as { role: string };
         const role = payload.role;
@@ -46,33 +45,22 @@ const LogingPage = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center">
-      {/* Background Image */}
-      <img
-        src="/home_image/hotel2.jpg"
-        alt="Hotel"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-
-      {/* Overlay for dark effect (optional) */}
-      <div className="absolute inset-0 bg-black/10"></div>
-
-      {/* Login Card Centered with Transparent Glass Effect */}
-      {/* Login Card Centered with Transparent Glass Effect */}
-      <div className="relative w-full h-full flex items-center justify-center">
-        <Card className="w-full max-w-md !bg-black/20 backdrop-blur-xs shadow-2xl rounded-xl p-8 !border-none text-white text-2xl">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+      {/* Left Side: Login Form */}
+      <div className="flex items-center justify-center bg-gray-100 p-6">
+        <Card className="w-full max-w-md bg-gray-50 shadow-2xl rounded-xl p-8 !border-none text-black">
           <div className="text-center mb-6">
-            <Title level={2} className="!text-white !text-5xl">
+            <Title level={2} className="!text-black !text-4xl">
               Mab Hotel Login
             </Title>
-            <Text className="!text-white !text-xl opacity-80">
+            <Text className="!text-black !text-lg opacity-80">
               Welcome back! Please login to continue.
             </Text>
           </div>
 
           <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
-              label={<span className="text-white !text-lg">Email</span>}
+              label={<span className="text-black !text-lg">Email</span>}
               name="email"
               rules={[
                 { required: true, message: "Please enter your email" },
@@ -83,35 +71,64 @@ const LogingPage = () => {
             </Form.Item>
 
             <Form.Item
-              label={<span className="text-white !text-lg">Password</span>}
+              label={<span className="text-black !text-lg">Password</span>}
               name="password"
-              rules={[
-                { required: true, message: "Please enter your password" },
-              ]}
+              rules={[{ required: true, message: "Please enter your password" }]}
             >
               <Input.Password size="large" placeholder="••••••••" />
             </Form.Item>
 
-            <div className="flex justify-between mb-4 text-lg">
+            <div className="flex justify-between mb-4 text-md">
               <Link href="/signup">
-                <Text className="!text-md !text-white hover:underline">
+                <Text className="!text-md !font-bold  !text-blue-500 hover:underline">
                   Create Account
                 </Text>
               </Link>
               <Link href="/forgotpassword">
-                <Text className="!text-md !text-white hover:underline">
+                <Text className="!text-md !font-bold !text-blue-600 hover:underline">
                   Forgot Password
                 </Text>
               </Link>
             </div>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit" size="large" block>
-                Login
-              </Button>
-            </Form.Item>
+            <Form.Item className="flex justify-center !mt-6">
+  <Button 
+    type="primary" 
+    htmlType="submit" 
+    size="large" 
+    className="!font-bold w-60 !text-lg flex justify-center"
+  >
+    Login
+  </Button>
+</Form.Item>
+
+  <Link href="/">
+  <Text className="!text-md !text-green-500 hover:underline flex justify-center">
+     Go to back
+  </Text>
+</Link>
+
+
           </Form>
         </Card>
+      </div>
+
+      {/* Right Side: Image */}
+      <div className="relative block">
+        <img
+          src="/home_image/hotel2.jpg"
+          alt="Hotel"
+          className="w-full h-72 md:h-full object-cover"
+        />
+
+        {/* Overlay text like in reference */}
+        <div className="absolute bottom-6 right-6 bg-black/40 text-white p-6 rounded-xl max-w-lg backdrop-blur-xs">
+          <h3 className="text-lg font-semibold">Your Luxury Escape Awaits</h3>
+          <p className="text-md mt-2">
+            Seamlessly book exquisite hotels and experience hospitality redefined
+          </p>
+        </div>
+        <div className="absolute "></div>
       </div>
     </div>
   );
