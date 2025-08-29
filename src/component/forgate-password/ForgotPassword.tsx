@@ -5,6 +5,7 @@ import { Form, Input, Button, Typography, Card, message } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { API } from '@/lib/api';
 
 const { Title, Text } = Typography;
 
@@ -12,7 +13,7 @@ const ForgotPassword = () => {
   const router = useRouter();
 
   const onFinish = async (values: any) => {
-    const res = await fetch("http://localhost:3000/auth/forget-password", {
+    const res = await fetch(API.FORGOT_PASSWORD, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: values.email }),

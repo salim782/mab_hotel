@@ -1,6 +1,7 @@
 "use client";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Form, Input, Button, message, Card } from "antd";
+import { API } from "@/lib/api";
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -9,7 +10,7 @@ const ResetPassword = () => {
   const email = searchParams.get("email");
 
   const onFinish = async (values: any) => {
-    const res = await fetch("http://localhost:3000/auth/reset-password", {
+    const res = await fetch(API.RESET_PASSWORD, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { useNavigation } from '@/app/NavigationProvider';
+import { API } from '@/lib/api';
 
 const { Title, Text } = Typography;
 
@@ -17,7 +18,7 @@ const SignupPage = () => {
   const onFinish = async (values: any) => {
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:3000/auth/signup', {
+      const response = await fetch(API.SIGNUP, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

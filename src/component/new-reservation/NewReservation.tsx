@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { Checkbox, Divider, Table } from "antd";
 import type { CheckboxOptionType, TableColumnsType } from "antd";
+import { City, Country, State } from "country-state-city";
+import { API } from "@/lib/api";
 
 const { Option } = Select;
 
@@ -22,7 +24,7 @@ export interface Reservation {
   reservationType?: string;
   mobileNo?: string;
   mobile2?: string;
-   country?: { _id: string; name: string; code: string };
+  country?: { _id: string; name: string; code: string };
   state?: { _id: string; name: string; isoCode: string };
   city?: { _id: string; name: string };
   zipCode?: string;
@@ -45,21 +47,10 @@ const columns: TableColumnsType<Reservation> = [
   { title: "Departure To", dataIndex: "departureTo", key: "5" },
   { title: "Reservation Type", dataIndex: "reservationType", key: "6" },
   { title: "Mobile No", dataIndex: "mobileNo", key: "7" },
-  {
-    title: "Country",
-    key: "8",
-    render: (record) => record.country?.name || "-",
-  },
-{
-  title: "State",
-  key: "9",
-  render: (_, record) => record.state?.name || "-",
-},
-{
-  title: "City",
-  key: "10",
-  render: (_, record) => record.city?.name || "-",
-},
+
+  { title: "Country", dataIndex: "country", key: "8" },
+  { title: "State", dataIndex: "state", key: "9" },
+  { title: "City", dataIndex: "city", key: "10" },
 
   { title: "Address", dataIndex: "address", key: "11" },
   { title: "Booked By", dataIndex: "bookedBy", key: "12" },
@@ -83,22 +74,21 @@ const columns: TableColumnsType<Reservation> = [
 const defaultCheckedList = columns.map((item) => item.key);
 
 export default function NewReservation() {
+  const [selectedCountry, setSelectedCountry] = useState<string>("");
+  const [selectedState, setSelectedState] = useState<string>("");
+
+  const countries = Country.getAllCountries();
+  const states = selectedCountry
+    ? State.getStatesOfCountry(selectedCountry)
+    : [];
+  const cities = selectedState
+    ? City.getCitiesOfState(selectedCountry, selectedState)
+    : [];
+
   const [form] = Form.useForm();
-  const router = useRouter();
 
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
   const [data, setData] = useState<Reservation[]>([]);
-
-  const [countries, setCountries] = useState<
-    { lable: string; value: string }[]
-  >([]);
-
-  const [city, setCity] = useState<{ lable: string; value: string }[]>([]);
-
-  const [states, setStates] = useState<{ lable: string; value: string }[]>([]);
-  const [countryId, setCountryId] = useState<string>("");
-  const [stateCode, setStateCode] = useState<string>("");
-  // const [countryCode, setCountryCode] = useState<string>("");
 
   const options = columns.map(({ key, title }) => ({
     label: title,
@@ -110,90 +100,17 @@ export default function NewReservation() {
     hidden: !checkedList.includes(item.key as string),
   }));
 
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/countries");
-        const result = await res.json();
-        console.log("Raw Countries API:", result);
-
-        const formatted = result.map((c: any) => ({
-          label: c.name,
-          value: c._id,
-        }));
-        console.log("Countries Options:", formatted);
-        setCountries(formatted);
-      } catch (error) {
-        console.error("Failed to fetch countries:", error);
-      }
-    };
-    fetchCountries();
-  }, []);
-
-  useEffect(() => {
-    if (!countryId) return; // 👈 guard
-    const fetchStates = async () => {
-      try {
-        const res = await fetch(`http://localhost:3000/states/${countryId}`);
-        if (!res.ok) throw new Error("Failed to fetch states");
-        const result = await res.json();
-        console.log("Raw states API:", result);
-        const formatted = result.map((c: any) => ({
-          label: c.name,
-          value: c.isoCode,
-        }));
-        console.log("states Options:", formatted);
-        setStates(formatted);
-      } catch (error) {
-        console.error("Failed to fetch states:", error);
-      }
-    };
-    fetchStates();
-  }, [countryId]);
-
-  useEffect(() => {
-    if (!countryId || !stateCode) {
-      setCity([]);
-      return;
-    }
-
-    const fetchCities = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/cities/${countryId}/${stateCode}`
-        );
-        console.log("Raw city API:", res);
-
-        if (!res.ok) throw new Error("Failed to fetch");
-
-        const result = await res.json();
-
-        const formatted = result.map((c: any) => ({
-          label: c.name,
-          value: c.name,
-        }));
-
-        console.log("City Options:", formatted);
-        setCity(formatted);
-      } catch (error) {
-        console.error("Failed to fetch city:", error);
-      }
-    };
-
-    fetchCities();
-  }, [countryId, stateCode]);
-
   const onFinish = async (values: any) => {
     console.log("Form Values:", values);
 
     try {
-      const response = await fetch("http://localhost:3000/new-reservation", {
+      const response = await fetch(API.NEW_RESERVATION, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
-        credentials: 'include'
+        credentials: "include",
       });
       const saved = await response.json();
       console.log("reservation created:", saved);
@@ -222,6 +139,7 @@ export default function NewReservation() {
     <div>
       <Form
         form={form}
+        // autoComplete="off"
         layout="vertical"
         onFinish={onFinish}
         style={{ padding: "20px", background: "#fff", borderRadius: 8 }}
@@ -318,31 +236,61 @@ export default function NewReservation() {
         {/* Row 4 */}
         <Row gutter={16}>
           <Col xs={24} sm={12} md={6}>
-            <Form.Item name="country" label="Country">
+            <Form.Item
+              name="country"
+              label="Country"
+              rules={[{ required: true }]}
+            >
               <Select
                 placeholder="Select Country"
-                options={countries}
-                onChange={(value) => setCountryId(value)} // 👈 yahi se countryId milega
-              />
+                onChange={(value) => {
+                  setSelectedCountry(value);
+                  setSelectedState("");
+                  form.setFieldsValue({ state: undefined, city: undefined });
+                }}
+                // showSearch
+              >
+                {countries.map((c) => (
+                  <Option key={c.isoCode} value={c.isoCode}>
+                    {c.name}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>
-            <Form.Item name="state" label="State">
+            <Form.Item name="state" label="State" rules={[{ required: true }]}>
               <Select
                 placeholder="Select State"
-                options={states}
-                onChange={(value) => setStateCode(value)}
-              />
+                onChange={(value) => {
+                  setSelectedState(value);
+                  form.setFieldsValue({ city: undefined });
+                }}
+                disabled={!selectedCountry}
+                // showSearch
+              >
+                {states.map((s) => (
+                  <Option key={s.isoCode} value={s.isoCode}>
+                    {s.name}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
 
           <Col xs={24} sm={12} md={6}>
-            <Form.Item name="city" label="City">
+            <Form.Item name="city" label="City" rules={[{ required: true }]}>
               <Select
                 placeholder="Select City"
-                options={city}
-                onChange={(value) => form.setFieldValue("city", value)}
-              />
+                disabled={!selectedState}
+                // showSearch
+              >
+                {cities.map((city) => (
+                  <Option key={city.name} value={city.name}>
+                    {city.name}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
           <Col xs={24} sm={12} md={6}>
@@ -359,7 +307,7 @@ export default function NewReservation() {
               <Input.TextArea rows={2} placeholder="Enter address" />
             </Form.Item>
           </Col>
-       
+
           <Col xs={24} sm={12} md={6}>
             <Form.Item name="dob" label="DOB">
               <DatePicker style={{ width: "100%" }} />
@@ -382,16 +330,6 @@ export default function NewReservation() {
               <Input placeholder="Enter Employee ID" />
             </Form.Item>
           </Col>
-          {/* <Col xs={24} sm={12} md={6}>
-          <Form.Item name="transportMode" label="Transport Mode">
-            <Select placeholder="Select Mode" />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={12} md={6}>
-          <Form.Item name="voucherNo" label="Confirm Voucher No.">
-            <Input placeholder="Enter voucher number" />
-          </Form.Item>
-        </Col> */}
         </Row>
 
         {/* Buttons */}
@@ -409,7 +347,7 @@ export default function NewReservation() {
 
       <Divider>Columns displayed</Divider>
       <Checkbox.Group
-        // value={checkedList}
+        value={checkedList}
         options={options as CheckboxOptionType[]}
         onChange={(value) => {
           setCheckedList(value as string[]);
@@ -418,7 +356,8 @@ export default function NewReservation() {
       <Table<Reservation>
         columns={newColumns}
         dataSource={data}
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 24,}}
+        scroll={{ x: 'max-content'}}
       />
     </div>
   );

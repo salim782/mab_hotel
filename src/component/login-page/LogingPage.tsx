@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import { useNavigation } from "@/app/NavigationProvider";
+import { API } from "@/lib/api";
 
 const { Title, Text } = Typography;
 
@@ -16,7 +17,7 @@ const LogingPage = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
+      const response = await fetch(API.LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
