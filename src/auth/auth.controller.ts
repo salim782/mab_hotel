@@ -27,6 +27,11 @@ export class AuthController {
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     return await this.authService.login(loginDto, res);
   }
+
+   @Post('logout')
+  async logout(@Res({ passthrough: true }) res: Response) {
+    return await this.authService.logout(res);
+  }
   
 //   @Post('forgot-password')
 //   @ApiBody({ type: ForgotPasswordDto })
