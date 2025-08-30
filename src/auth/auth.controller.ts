@@ -4,9 +4,6 @@ import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
-// import { ApiBearerAuth, ApiBody } from '@nestjs/swagger';
-// import { VerifyOtpDto } from './dto/verify-otp.dto';
-// import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 
 @Controller('auth')
@@ -18,11 +15,6 @@ export class AuthController {
     return await this.authService.SignUp(signUpDto);
   }
 
-  // @Post('login')
-  // async login(@Body() loginDto: LoginDto){
-  //   return await this.authService.login(loginDto,res);
-  // }
-
   @Post('login')
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
     return await this.authService.login(loginDto, res);
@@ -33,22 +25,6 @@ export class AuthController {
     return await this.authService.logout(res);
   }
   
-//   @Post('forgot-password')
-//   @ApiBody({ type: ForgotPasswordDto })
-//   forgotPassword(@Body() dto: ForgotPasswordDto) {
-//     return this.authService.forgotPassword(dto);
-//   }
-//   @Post('verify-otp')
-//   @ApiBody({ type: VerifyOtpDto }) 
-//   verifyOtp(@Body() dto: VerifyOtpDto) {
-//   return this.authService.verifyOtp(dto.otp);
-// }
-// @ApiBearerAuth('token') 
-// @Put('reset-password')
-// @UseGuards(AuthGuard('jwt'))
-// resetPassword(@Req() req, @Body() dto: ResetPasswordDto) {
-//   return this.authService.resetPassword(req.user.id, dto);
-// }
 
 @Post('forget-password')
 forgetPassword(@Body() dto: ForgotPasswordDto) {
