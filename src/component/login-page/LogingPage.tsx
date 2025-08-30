@@ -48,8 +48,8 @@ const LogingPage = () => {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
       {/* Left Side: Login Form */}
-      <div className="flex items-center justify-center bg-gray-100 p-6">
-        <Card className="w-full max-w-md bg-gray-50 shadow-2xl rounded-xl p-8 !border-none text-black">
+      <div className="flex items-center justify-center bg-gray-50  p-6" data-aos="fade-right">  
+        <Card className="w-full max-w-md bg-gray-50 p-8 !border-none text-black">
           <div className="text-center mb-6">
             <Title level={2} className="!text-black !text-4xl">
               Mab Hotel Login
@@ -115,7 +115,7 @@ const LogingPage = () => {
       </div>
 
       {/* Right Side: Image */}
-      <div className="relative block">
+      <div className="relative block" data-aos="fade-left">
         <img
           src="/home_image/hotel2.jpg"
           alt="Hotel"
