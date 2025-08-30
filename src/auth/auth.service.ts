@@ -124,30 +124,119 @@ export class AuthService {
     return { message: 'Logout successful' };
   }
 
-  async forgetPassword(dto: ForgotPasswordDto) {
-    const user = await this.userModel.findOne({ email: dto.email });
-    if (!user) {
-      throw new NotFoundException('User not found with this email');
-    }
-
-    const token = crypto.randomBytes(32).toString('hex');
-    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = expires;
-    await user.save();
-
-    const resetLink = `http://localhost:3001/reset-password?token=${token}&email=${user.email}`;
-
-    await this.transporter.sendMail({
-      to: user.email,
-      subject: 'Password Reset Request',
-      html: `<p>You requested to reset your password.</p>
-             <p>Click <a href="${resetLink}">here</a> to reset it. This link is valid for 1 hour.</p>`,
-    });
-
-    return { message: 'Password reset link sent to email' };
+ async forgetPassword(dto: ForgotPasswordDto) {
+  const user = await this.userModel.findOne({ email: dto.email });
+  if (!user) {
+    throw new NotFoundException('User not found with this email');
   }
+
+  const token = crypto.randomBytes(32).toString('hex');
+  const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+  user.resetPasswordToken = token;
+  user.resetPasswordExpires = expires;
+  await user.save();
+
+  const resetLink = `http://localhost:3001/reset-password?token=${token}&email=${user.email}`;
+
+  await this.transporter.sendMail({
+    to: user.email,
+    subject: 'Password Reset Request',
+    html: `<body style="margin:0; padding:0; background-color:#ffffff; font-family: Arial, sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <!-- Main container -->
+        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+          
+          <!-- Logo -->
+          <tr>
+            <td align="center" style="padding: 30px 20px 10px; background:#ffffff;">
+              <img src="cid:logo" 
+                   alt="Mabsol Logo" 
+                   style="max-width:110px; height:auto; display:block; margin:0 auto;" />
+            </td>
+          </tr>
+
+          <!-- Lock Image + Title -->
+          <tr>
+            <td align="center" style="padding:5px;">
+              <img src="cid:lock" 
+                   alt="lock" 
+                   width="100" 
+                   style="margin-bottom:10px;">
+              <h2 style="font-size:22px; color:#333333; margin:0 0 10px;">Reset your password</h2>
+              <p style="font-size:15px; color:#555555; margin:0 0 25px;">
+                We've got a request from you to reset the password for your account. 
+                Please click on the button below to get a new password.
+              </p>
+
+              <!-- Button -->
+              <a href="${resetLink}" 
+                 style="background-color:#3b49df; color:#ffffff; text-decoration:none; padding:12px 25px; border-radius:4px; font-size:16px; font-weight:bold; display:inline-block;">
+                Reset my password
+              </a>
+            </td>
+          </tr>
+
+          <!-- Support Info -->
+          <tr>
+            <td style="padding: 30px 20px 10px; color:#555555; font-size:14px; line-height:20px;">
+              <p style="margin:0 0 15px;">
+                <strong>Questions?</strong><br>
+                Please let us know if there's anything we can help you with by replying 
+                to this email or by emailing 
+                <a href="mailto:help@mabsolhotelteam.com" style="color:#3b49df; text-decoration:none;">help@mabsolhotelteam.com</a>.
+              </p>
+              <p style="margin:0 0 15px;">
+                If you didn't request a password reset, we recommend you get in touch with 
+                our support team and secure your account.<br>
+                <a href="tel:18776576879" style="color:#3b49df; text-decoration:none; font-weight:bold;">Call us at 1(877-6576-8789)</a> 
+                or write to us at 
+                <a href="mailto:help@mabsolcompany.com" style="color:#3b49df; text-decoration:none; font-weight:bold;">help@mabsolcompany.com</a>.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Thank You -->
+          <tr>
+            <td align="left" style="padding: 20px; font-size:14px; color:#555555;">
+              <p style="margin:0; font-weight:500;">
+                Thank you,<br>
+                <span style="font-weight:bold;">Mabsol Hotel Team</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" style="font-size:12px; color:#999999; padding: 10px 20px 20px;">
+              <p style="margin:0;">Copyright © 2025 | Mabsol Hotel | All rights reserved</p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- End container -->
+      </td>
+    </tr>
+  </table>
+</body>`,
+    attachments: [
+      {
+        filename: 'logo.jpg',
+        path: 'src/auth/reset/logo.jpg',
+        cid: 'logo'
+      },
+      {
+        filename: 'lock.jpeg',
+        path: 'src/auth/reset/lock.jpeg',
+        cid: 'lock'
+      }
+    ]
+  });
+
+  return { message: 'Password reset link sent to email' };
+}
 
   async resetPassword(dto: ResetPasswordDto) {
     const user = await this.userModel.findOne({
@@ -166,6 +255,6 @@ export class AuthService {
 
     await user.save();
 
-    return { message: 'Password reset successful' };
+    return { message: 'Password reset successfully' };
   }
 }

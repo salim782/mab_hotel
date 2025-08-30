@@ -3,15 +3,21 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from '@nestjs/config';
-// import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { usersSchema } from 'src/users/schemas/users.schemas';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { RolesGuard } from 'src/common/roles.guard';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports:[
+     // ServeStatic setup
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..', 'src/auth/reset'), // jaha images hain
+    //   serveRoot: '/reset', // URL prefix banega http://localhost:3001/reset
+    // }),
     PassportModule.register({defaultStrategy: 'jwt'}),
     JwtModule.registerAsync({
       inject: [ConfigService],
