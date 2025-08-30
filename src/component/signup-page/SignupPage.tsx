@@ -63,7 +63,7 @@ const SignupPage = () => {
 
       {/* RIGHT SIDE - Form */}
       <div className="flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-white p-5 rounded-2xl shadow-xl">
+        <div className="w-full max-w-md bg-white p-5 rounded-2xl shadow-xl py-14">
           {/* Logo */}
           <div className="flex items-center mb-2">
             <Image src="/logo.png" alt="Logo" width={32} height={32} />
@@ -73,9 +73,9 @@ const SignupPage = () => {
           </div>
 
           <Title level={2}>Create Your Account Now</Title>
-          <Text type="secondary" className="!text-gray-600 ">
+          {/* <Text type="secondary" className="!text-gray-600 ">
             Your journey to effortless stays begins here
-          </Text>
+          </Text> */}
 
           <Form layout="vertical" className="mt-4" onFinish={onFinish}>
             <Form.Item
@@ -101,7 +101,25 @@ const SignupPage = () => {
               name="password"
               rules={[{ required: true, message: "Please enter a password" }]}
             >
-              <Input.Password size="large" placeholder="Your password" />
+              <Input.Password size="large" placeholder="Password" />
+            </Form.Item>
+
+            <Form.Item
+              name="confirmpassword"
+              dependencies={["password"]}
+              rules={[
+                { required: true, message: "Please confirm your password" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error("Passwords do not match!"));
+                  },
+                }),
+              ]}
+            >
+              <Input.Password size="large" placeholder="Confirm Password" />
             </Form.Item>
 
             <Form.Item className="flex justify-center !mt-6">
@@ -120,22 +138,25 @@ const SignupPage = () => {
                 <input type="checkbox" className="w-4 h-4" />
                 <span className="text-gray-600 text-sm">Remember me</span>
               </label>
-              <Link href="#" className="text-sm text-blue-600 hover:underline">
-                Forgot Password?
-              </Link>
+              <Text>
+                Already have an account?{" "}
+                <Link href="/login" className="text-blue-800 hover:underline">
+                  Login
+                </Link>
+              </Text>
             </div>
 
             {/* Divider */}
-            <div className="flex items-center my-6">
+            {/* <div className="flex items-center my-6">
               <div className="flex-grow border-t border-gray-300"></div>
               <span className="px-3 text-gray-500 text-sm">
                 Or Sign in with
               </span>
               <div className="flex-grow border-t border-gray-300"></div>
-            </div>
+            </div> */}
 
             {/* Social Buttons */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* <div className="grid grid-cols-2 gap-3">
               <Button
                 block
                 size="large"
@@ -150,37 +171,15 @@ const SignupPage = () => {
                 />
                 Google
               </Button>
+            </div> */}
 
-              <Button
-                block
-                size="large"
-                className="flex items-center justify-center border"
-              >
-                <Image
-                  src="/icons/apple.png"
-                  alt="Apple"
-                  width={20}
-                  height={20}
-                  className="mr-2"
-                />
-                Apple
-              </Button>
-            </div>
-
-            <div className="text-center mt-4">
-              <Text>
-                Already have an account?{" "}
-                <Link href="/login" className="text-blue-800 hover:underline">
-                  Login
-                </Link>
-              </Text>
-            </div>
+            {/* <div className="text-center mt-4"></div>
 
             <Link href="/">
-              <Text className="!text-md !text-green-500 hover:underline flex justify-center">
+              <Text className="!text-md !text-green-500 flex justify-center">
                 Go to back
               </Text>
-            </Link>
+            </Link> */}
           </Form>
         </div>
       </div>
