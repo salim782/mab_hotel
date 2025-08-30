@@ -10,6 +10,7 @@ import { Button, Grid, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { useNavigation } from "@/app/NavigationProvider";
+import { API } from "@/lib/api";
 const { useBreakpoint } = Grid;
 
 const { Header, Sider, Content } = Layout;
@@ -41,7 +42,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     "1-7": "/return-paidup",
   };
 
-  // Set selected menu based on current path
   useEffect(() => {
     const foundKey = Object.keys(routeMap).find(
       (key) => routeMap[key] === pathname
@@ -51,9 +51,20 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     }
   }, [pathname]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.replace("/login");
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(API.COOKIES_REMOVE, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("Logout failed");
+
+      await res.json();
+      router.replace("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   const handleNavigate = (path: string, key: string) => {

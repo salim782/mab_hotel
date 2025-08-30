@@ -146,40 +146,6 @@ const SignupPage = () => {
               </Text>
             </div>
 
-            {/* Divider */}
-            {/* <div className="flex items-center my-6">
-              <div className="flex-grow border-t border-gray-300"></div>
-              <span className="px-3 text-gray-500 text-sm">
-                Or Sign in with
-              </span>
-              <div className="flex-grow border-t border-gray-300"></div>
-            </div> */}
-
-            {/* Social Buttons */}
-            {/* <div className="grid grid-cols-2 gap-3">
-              <Button
-                block
-                size="large"
-                className="flex items-center justify-center border"
-              >
-                <Image
-                  src="/icons/google.png"
-                  alt="Google"
-                  width={20}
-                  height={20}
-                  className="mr-2"
-                />
-                Google
-              </Button>
-            </div> */}
-
-            {/* <div className="text-center mt-4"></div>
-
-            <Link href="/">
-              <Text className="!text-md !text-green-500 flex justify-center">
-                Go to back
-              </Text>
-            </Link> */}
           </Form>
         </div>
       </div>
