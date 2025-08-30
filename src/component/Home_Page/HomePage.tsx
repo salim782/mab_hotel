@@ -65,7 +65,7 @@ export default function HomePage() {
         <p className="text-lg md:text-xl max-w-xl mx-auto text-white drop-shadow">
           Experience luxury and comfort in the heart of the city
         </p>
-        <button className="mt-8 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg shadow-md">
+        <button className="mt-8 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg shadow-md"onClick={()=>navigate("/login")}>
           Book Now
         </button>
       </section>
