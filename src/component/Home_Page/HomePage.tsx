@@ -34,7 +34,7 @@ export default function HomePage() {
       <nav className="absolute top-0 left-0 w-full flex items-center justify-between px-8 py-2 bg-white/30 backdrop-blur-md z-20">
         <div>
           <img
-            src="/home_image/logo.png"
+            src="/images/mab-logo.png"
             alt="Hotel Logo"
             className="h-20 w-20 ml-10 rounded-full"
           />
@@ -42,7 +42,7 @@ export default function HomePage() {
         <ul className="hidden md:flex gap-10 text-lg font-medium">
           <li className="cursor-pointer hover:text-yellow-400">Home</li>
           <li className="cursor-pointer hover:text-yellow-400">About</li>
-          <li className="cursor-pointer hover:text-yellow-400">Services</li>
+          <li className="cursor-pointer hover:text-yellow-400" onClick={()=>navigate("/service")}>Services</li>
           <li className="cursor-pointer hover:text-yellow-400">Contact</li>
           
         </ul>
@@ -51,7 +51,7 @@ export default function HomePage() {
           <Link href="/login">Login</Link>
         </button> */}
         <Link href="/login" prefetch>
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-semibold">
+          <button className="bg-[#0a3255] cursor-pointer text-white px-6 py-2 rounded-lg font-semibold">
             Login
           </button>
         </Link>
@@ -65,7 +65,7 @@ export default function HomePage() {
         <p className="text-lg md:text-xl max-w-xl mx-auto text-white drop-shadow">
           Experience luxury and comfort in the heart of the city
         </p>
-        <button className="mt-8 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg shadow-md"onClick={()=>navigate("/login")}>
+        <button className="mt-8 px-6 py-3 bg-yellow-500 cursor-pointer hover:bg-yellow-600 text-black font-semibold rounded-lg shadow-md"onClick={()=>navigate("/login")}>
           Book Now
         </button>
       </section>
@@ -305,7 +305,7 @@ export default function HomePage() {
           <div>
             <h3 className="text-xl font-bold mb-4 text-white">Contact Us</h3>
             <p className="text-sm">📍 Main Street, City Center</p>
-            <p className="text-sm">📞 +91 98765 43210</p>
+            <p className="text-sm">📞 +91 9888914287</p>
             <p className="text-sm">📧 contact@mabsolhotel.com</p>
 
             {/* Social Icons */}

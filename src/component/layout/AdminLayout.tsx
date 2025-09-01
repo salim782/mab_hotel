@@ -210,7 +210,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             onClick={() => router.push("/admin")}
           >
             <img
-              src="/logo.png"
+              src="/images/mab-logo.png"
               alt="Logo"
               style={{
                 height: collapsed ? 40 : "100%",
