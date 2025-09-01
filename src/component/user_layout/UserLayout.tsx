@@ -10,15 +10,16 @@ import { Button, Grid, Layout, Menu, theme } from "antd";
 import { MdOutlineComputer } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { useNavigation } from "@/app/NavigationProvider";
+import { API } from "@/lib/api";
 const { useBreakpoint } = Grid;
 
 const { Header, Sider, Content } = Layout;
 
-interface AdminLayoutProps {
+interface UserLayoutProps {
   children: React.ReactNode;
 }
 
-const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const UserLayout: React.FC<UserLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [openKeys, setOpenKeys] = useState<string[]>(["1"]);
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -29,11 +30,13 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const siderWidth = collapsed ? 80 : 250;
   const router = useRouter();
   const pathname = usePathname();
+  const { navigate } = useNavigation();
+  const screens = useBreakpoint();
+  const isMobile = !screens.md;
 
   // Route mapping
   const routeMap: Record<string, string> = {
-    
-    "1-1": "/use-profile",
+    "1-1": "/user/user-profile",
   };
 
   // Set selected menu based on current path
@@ -43,39 +46,37 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     );
     if (foundKey) {
       setSelectedKeys([foundKey]);
+      setOpenKeys([foundKey.split("-")[0]]); // parent menu open
     }
   }, [pathname]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.replace("/login");
-  };
+  const handleLogout = async () => {
+    try {
+      const res = await fetch(API.COOKIES_REMOVE, {
+        method: "POST",
+        credentials: "include",
+      });
 
-  const handleNavigate = (path: string, key: string) => {
-    setSelectedKeys([key]);
-    navigate(path);
+      if (!res.ok) throw new Error("Logout failed");
+
+      await res.json();
+      router.replace("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   const item = [
     {
       key: "1",
       icon: <UserOutlined />,
-      label: "Reservation",
+      label: "User Profile",
       children: [
-        
         {
           key: "1-1",
           icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/user-profile", "1-1")}
-              className="cursor-pointer"
-            >
-             profile
-            </span>
-          ),
+          label: "profile",
         },
-       
       ],
     },
     {
@@ -90,12 +91,8 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     },
   ];
 
-  const screens = useBreakpoint();
-  const { navigate, setLoading } = useNavigation();
-
-  const isMobile = !screens.md;
   return (
-      <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
+    <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
       <Sider
         trigger={null}
         collapsible
@@ -120,7 +117,11 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               alignItems: "center",
               color: "red",
             }}
-            onClick={() => router.push("/dashboard")}
+            onClick={() => {
+              router.push("/user"); // Dashboard navigate
+              setSelectedKeys([]); // Clear sidebar selection
+              setOpenKeys([]); // Close open submenu
+            }}
           >
             <img
               src="/logo.png"
@@ -144,6 +145,13 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           onOpenChange={(keys) => setOpenKeys(keys)}
           selectedKeys={selectedKeys}
           items={item}
+          onClick={({ key }) => {
+            const path = routeMap[key];
+            if (path) {
+              setSelectedKeys([key]);
+              navigate(path);
+            }
+          }}
         />
       </Sider>
 
@@ -197,7 +205,7 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </Content>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default UserLayout
+export default UserLayout;
