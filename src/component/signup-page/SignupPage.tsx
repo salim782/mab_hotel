@@ -41,9 +41,9 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden grid grid-cols-1 md:grid-cols-2 bg-gray-100">
+    <div className="min-h-screen w-full overflow-x-hidden grid grid-cols-1 md:grid-cols-2 bg-white ">
       {/* LEFT SIDE - Image */}
-      <div className="relative hidden md:block">
+      <div className="relative hidden md:block" data-aos="fade-right">
         <Image
           src="/home_image/event.jpg"
           alt="Signup Illustration"
@@ -62,15 +62,15 @@ const SignupPage = () => {
       </div>
 
       {/* RIGHT SIDE - Form */}
-      <div className="flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-white p-5 rounded-2xl shadow-xl py-14">
+      <div className="flex items-center justify-center p-4" data-aos="fade-left">
+        <div className="w-full max-w-md bg-white p-5 py-14">
           {/* Logo */}
-          <div className="flex items-center mb-2">
+          {/* <div className="flex items-center mb-2">
             <Image src="/logo.png" alt="Logo" width={32} height={32} />
             <span className="ml-2 text-sm font-bold text-black">
               Mabsol Hotel
             </span>
-          </div>
+          </div> */}
 
           <Title level={2}>Create Your Account Now</Title>
           {/* <Text type="secondary" className="!text-gray-600 ">
@@ -136,7 +136,7 @@ const SignupPage = () => {
             <div className="flex items-center justify-between mt-3">
               <label className="flex items-center space-x-2">
                 <input type="checkbox" className="w-4 h-4" />
-                <span className="text-gray-600 text-sm">Remember me</span>
+                <span className="text-sm">Remember me</span>
               </label>
               <Text>
                 Already have an account?{" "}

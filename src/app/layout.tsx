@@ -1,9 +1,11 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import NavigationProvider from "./NavigationProvider";
 import ClientWrapper from "./ClientWrapper";
+
 
 
 const geistSans = Geist({
@@ -23,17 +25,18 @@ export const metadata: Metadata = {
     icon: "/images/favicon.png",
   },
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* {children} */}
         <NavigationProvider>
           <ClientWrapper>{children}</ClientWrapper>
         </NavigationProvider>
