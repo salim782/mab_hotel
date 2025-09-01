@@ -33,21 +33,23 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   // Route mapping
   const routeMap: Record<string, string> = {
-    "1-1": "/new-reservation",
-    "1-2": "/res-booking",
-    "1-3": "/res-status",
-    "1-4": "/res-cancel",
-    "1-5": "/reservation-calender",
-    "1-6": "/advanced-deposit",
-    "1-7": "/return-paidup",
+    "1-1": "/admin/new-reservation",
+    "1-2": "/admin/res-booking",
+    "1-3": "/admin/res-status",
+    "1-4": "/admin/res-cancel",
+    "1-5": "/admin/reservation-calender",
+    "1-6": "/admin/advanced-deposit",
+    "1-7": "/admin/return-paidup",
   };
 
+  // Sync menu with current URL
   useEffect(() => {
     const foundKey = Object.keys(routeMap).find(
       (key) => routeMap[key] === pathname
     );
     if (foundKey) {
       setSelectedKeys([foundKey]);
+      setOpenKeys([foundKey.split("-")[0]]); // parent menu open
     }
   }, [pathname]);
 
@@ -67,119 +69,45 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     }
   };
 
-  const handleNavigate = (path: string, key: string) => {
-    setSelectedKeys([key]);
-    navigate(path);
-  };
+  const { navigate } = useNavigation();
+  const screens = useBreakpoint();
+  const isMobile = !screens.md;
 
+  // Menu items
   const items = [
     {
       key: "1",
       icon: <UserOutlined />,
       label: "Reservation",
       children: [
-        {
-          key: "1-1",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/new-reservation", "1-1")}
-              className="cursor-pointer"
-            >
-              New Reservation
-            </span>
-          ),
-        },
+        { key: "1-1", icon: <MdOutlineComputer />, label: "New Reservation" },
         {
           key: "1-2",
           icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/res-booking", "1-2")}
-              className="cursor-pointer"
-            >
-              Reservation Booking Details
-            </span>
-          ),
+          label: "Reservation Booking Details",
         },
         {
           key: "1-3",
           icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/res-status", "1-3")}
-              className="cursor-pointer"
-            >
-              Reservation Status View
-            </span>
-          ),
+          label: "Reservation Status View",
         },
         {
           key: "1-4",
           icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/res-cancel", "1-4")}
-              className="cursor-pointer"
-            >
-              Cancel Reservation List
-            </span>
-          ),
+          label: "Cancel Reservation List",
         },
         {
           key: "1-5",
           icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/reservation-calender", "1-5")}
-              className="cursor-pointer"
-            >
-              Reservation Calendar
-            </span>
-          ),
+          label: "Reservation Calendar",
         },
-        {
-          key: "1-6",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/advanced-deposit", "1-6")}
-              className="cursor-pointer"
-            >
-              Advanced Deposit
-            </span>
-          ),
-        },
-        {
-          key: "1-7",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/return-paidup", "1-7")}
-              className="cursor-pointer"
-            >
-              Return/Paidup
-            </span>
-          ),
-        },
+        { key: "1-6", icon: <MdOutlineComputer />, label: "Advanced Deposit" },
+        { key: "1-7", icon: <MdOutlineComputer />, label: "Return/Paidup" },
       ],
     },
-    {
-      key: "2",
-      icon: <UserOutlined />,
-      label: "Front Office",
-    },
-    {
-      key: "3",
-      icon: <UserOutlined />,
-      label: "House Keeping",
-    },
+    { key: "2", icon: <UserOutlined />, label: "Front Office" },
+    { key: "3", icon: <UserOutlined />, label: "House Keeping" },
   ];
-
-  const screens = useBreakpoint();
-  const { navigate, setLoading } = useNavigation();
-
-  const isMobile = !screens.md;
 
   return (
     <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
@@ -206,8 +134,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               justifyContent: "center",
               alignItems: "center",
               color: "red",
+              cursor: "pointer",
             }}
-            onClick={() => router.push("/admin")}
+            onClick={() => {
+              router.push("/admin"); // Dashboard navigate
+              setSelectedKeys([]); // Clear sidebar selection
+              setOpenKeys([]); // Close open submenu
+            }}
           >
             <img
               src="/images/mab-logo.png"
@@ -221,6 +154,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               }}
             />
           </div>
+
           {!collapsed && <h1 className="text-white text-lg">Dashboard</h1>}
         </div>
 
@@ -230,6 +164,13 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           openKeys={openKeys}
           onOpenChange={(keys) => setOpenKeys(keys)}
           selectedKeys={selectedKeys}
+          onClick={({ key }) => {
+            const path = routeMap[key];
+            if (path) {
+              setSelectedKeys([key]);
+              navigate(path);
+            }
+          }}
           items={items}
         />
       </Sider>
@@ -256,11 +197,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
+            style={{ fontSize: "16px", width: 64, height: 64 }}
           />
           <Button type="primary" size="middle" onClick={handleLogout}>
             Logout
@@ -269,8 +206,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
         <Content
           style={{
-            // margin: "24px 16px",
-            // padding: 24,
             margin: isMobile ? 0 : "24px 16px",
             padding: isMobile ? 0 : 24,
             minHeight: 280,

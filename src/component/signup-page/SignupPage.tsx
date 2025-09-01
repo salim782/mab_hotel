@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, Card, message } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { useNavigation } from "@/app/NavigationProvider";
 import Image from "next/image";
@@ -12,7 +11,6 @@ import { API } from "@/lib/api";
 const { Title, Text } = Typography;
 
 const SignupPage = () => {
-  const router = useRouter();
   const { navigate, setLoading } = useNavigation();
 
   const onFinish = async (values: any) => {
@@ -25,6 +23,8 @@ const SignupPage = () => {
         credentials: "include",
       });
       const data = await response.json();
+      console.log(data,"***********************************");
+      
 
       if (response.ok) {
         toast.success("Account created successfully!");
@@ -62,7 +62,10 @@ const SignupPage = () => {
       </div>
 
       {/* RIGHT SIDE - Form */}
-      <div className="flex items-center justify-center p-4" data-aos="fade-left">
+      <div
+        className="flex items-center justify-center p-4"
+        data-aos="fade-left"
+      >
         <div className="w-full max-w-md bg-white p-5 py-14">
           {/* Logo */}
           {/* <div className="flex items-center mb-2">
@@ -79,6 +82,7 @@ const SignupPage = () => {
 
           <Form layout="vertical" className="mt-4" onFinish={onFinish}>
             <Form.Item
+              label="Name"
               name="name"
               rules={[
                 { required: true, message: "Please enter your full name" },
@@ -88,6 +92,7 @@ const SignupPage = () => {
             </Form.Item>
 
             <Form.Item
+              label="Email"
               name="email"
               rules={[
                 { required: true, message: "Please enter your email" },
@@ -98,6 +103,7 @@ const SignupPage = () => {
             </Form.Item>
 
             <Form.Item
+              label="Password"
               name="password"
               rules={[{ required: true, message: "Please enter a password" }]}
             >
@@ -105,8 +111,10 @@ const SignupPage = () => {
             </Form.Item>
 
             <Form.Item
-              name="confirmpassword"
+              name="confirmPassword"
+              label="Confirm Password"
               dependencies={["password"]}
+              hasFeedback
               rules={[
                 { required: true, message: "Please confirm your password" },
                 ({ getFieldValue }) => ({
@@ -114,7 +122,7 @@ const SignupPage = () => {
                     if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error("Passwords do not match!"));
+                    return Promise.reject(new Error("Passwords do not match"));
                   },
                 }),
               ]}
@@ -122,12 +130,13 @@ const SignupPage = () => {
               <Input.Password size="large" placeholder="Confirm Password" />
             </Form.Item>
 
-            <Form.Item className="flex justify-center !mt-6">
+            <Form.Item>
               <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="!font-bold w-60 flex justify-center"
+                block
+                className="!text-sm"
               >
                 Sign Up
               </Button>
@@ -145,7 +154,6 @@ const SignupPage = () => {
                 </Link>
               </Text>
             </div>
-
           </Form>
         </div>
       </div>

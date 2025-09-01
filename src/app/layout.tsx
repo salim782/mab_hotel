@@ -7,7 +7,6 @@ import NavigationProvider from "./NavigationProvider";
 import ClientWrapper from "./ClientWrapper";
 
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

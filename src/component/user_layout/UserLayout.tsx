@@ -32,13 +32,8 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   // Route mapping
   const routeMap: Record<string, string> = {
-    "1-1": "/new-reservation",
-    "1-2": "/res-booking",
-    "1-3": "/res-status",
-    "1-4": "/res-cancel",
-    "1-5": "/reservation-calender",
-    "1-6": "/advanced-deposit",
-    "1-7": "/return-paidup",
+    
+    "1-1": "/use-profile",
   };
 
   // Set selected menu based on current path
@@ -61,96 +56,26 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     navigate(path);
   };
 
-  const items = [
+  const item = [
     {
       key: "1",
       icon: <UserOutlined />,
       label: "Reservation",
       children: [
+        
         {
           key: "1-1",
           icon: <MdOutlineComputer />,
           label: (
             <span
-              onClick={() => handleNavigate("/new-reservation", "1-1")}
+              onClick={() => handleNavigate("/user-profile", "1-1")}
               className="cursor-pointer"
             >
-              New Reservation
+             profile
             </span>
           ),
         },
-        {
-          key: "1-2",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/res-booking", "1-2")}
-              className="cursor-pointer"
-            >
-              Reservation Booking Details
-            </span>
-          ),
-        },
-        {
-          key: "1-3",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/res-status", "1-3")}
-              className="cursor-pointer"
-            >
-              Reservation Status View
-            </span>
-          ),
-        },
-        {
-          key: "1-4",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/res-cancel", "1-4")}
-              className="cursor-pointer"
-            >
-              Cancel Reservation List
-            </span>
-          ),
-        },
-        {
-          key: "1-5",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/reservation-calender", "1-5")}
-              className="cursor-pointer"
-            >
-              Reservation Calendar
-            </span>
-          ),
-        },
-        {
-          key: "1-6",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/advanced-deposit", "1-6")}
-              className="cursor-pointer"
-            >
-              Advanced Deposit
-            </span>
-          ),
-        },
-        {
-          key: "1-7",
-          icon: <MdOutlineComputer />,
-          label: (
-            <span
-              onClick={() => handleNavigate("/return-paidup", "1-7")}
-              className="cursor-pointer"
-            >
-              Return/Paidup
-            </span>
-          ),
-        },
+       
       ],
     },
     {
@@ -195,7 +120,7 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               alignItems: "center",
               color: "red",
             }}
-            onClick={() => router.push("/admin")}
+            onClick={() => router.push("/dashboard")}
           >
             <img
               src="/logo.png"
@@ -218,7 +143,7 @@ const UserLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           openKeys={openKeys}
           onOpenChange={(keys) => setOpenKeys(keys)}
           selectedKeys={selectedKeys}
-          items={items}
+          items={item}
         />
       </Sider>
 

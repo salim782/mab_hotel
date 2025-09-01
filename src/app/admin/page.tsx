@@ -1,12 +1,12 @@
 import AdminDashboard from "@/component/admin_dashboard/AdminDashboard";
-import AdminLayout from "@/component/layout/AdminLayout";
+import AdminLayout from "@/component/admin-layout/AdminLayout";
 import React from "react";
 
 const page = () => {
   return (
-    <AdminLayout>
+    // <AdminLayout>
       <AdminDashboard />
-    </AdminLayout>
+    // </AdminLayout>
   );
 };
 

@@ -1,12 +1,12 @@
-import AdminLayout from "@/component/layout/AdminLayout";
+import AdminLayout from "@/component/admin-layout/AdminLayout";
 import ReservationStatus from "@/component/reservation-status/ReservationStatus";
 import React from "react";
 
 const page = () => {
   return (
-    <AdminLayout>
+    // <AdminLayout>
       <ReservationStatus />
-    </AdminLayout>
+    // </AdminLayout>
   );
 };
 

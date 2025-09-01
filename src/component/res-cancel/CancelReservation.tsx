@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const CancelReservation = () => {
-  return (
-    <div>
-      ffffffffffffffffffffffffff
-    </div>
-  )
-}
+  return <div>CancelReservation</div>;
+};
 
-export default CancelReservation
+export default CancelReservation;

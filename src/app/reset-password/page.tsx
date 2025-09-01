@@ -1,4 +1,4 @@
-import AdminLayout from "@/component/layout/AdminLayout";
+import AdminLayout from "@/component/admin-layout/AdminLayout";
 import ResetPassword from "@/component/reset-password/ResetPassword";
 import React, { Suspense } from "react";
 

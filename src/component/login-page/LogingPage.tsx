@@ -48,7 +48,10 @@ const LogingPage = () => {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
       {/* Left Side: Login Form */}
-      <div className="flex items-center justify-center bg-gray-50  p-6" data-aos="fade-right">  
+      <div
+        className="flex items-center justify-center bg-gray-50  p-6"
+        data-aos="fade-right"
+      >
         <Card className="w-full max-w-md bg-gray-50 p-8 !border-none text-black">
           <div className="text-center mb-6">
             <Title level={2} className="!text-black !text-4xl">
@@ -61,7 +64,8 @@ const LogingPage = () => {
 
           <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
-              label={<span className="text-black !text-lg">Email</span>}
+              // label={<span className="text-black !text-lg">Email</span>}
+              label="Email"
               name="email"
               rules={[
                 { required: true, message: "Please enter your email" },
@@ -72,9 +76,12 @@ const LogingPage = () => {
             </Form.Item>
 
             <Form.Item
-              label={<span className="text-black !text-lg">Password</span>}
+              // label={<span className="text-black !text-lg">Password</span>}
+              label="Password"
               name="password"
-              rules={[{ required: true, message: "Please enter your password" }]}
+              rules={[
+                { required: true, message: "Please enter your password" },
+              ]}
             >
               <Input.Password size="large" placeholder="••••••••" />
             </Form.Item>
@@ -92,24 +99,23 @@ const LogingPage = () => {
               </Link>
             </div>
 
-            <Form.Item className="flex justify-center !mt-6">
-  <Button 
-    type="primary" 
-    htmlType="submit" 
-    size="large" 
-    className="!font-bold w-60 !text-lg flex justify-center"
-  >
-    Login
-  </Button>
-</Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                block
+                className="!text-sm"
+              >
+                Login
+              </Button>
+            </Form.Item>
 
-  <Link href="/">
-  <Text className="!text-md !text-green-500 hover:underline flex justify-center">
-     Go to back
-  </Text>
-</Link>
-
-
+            <Link href="/">
+              <Text className="!text-md !text-green-500 hover:underline flex justify-center">
+                Go to back
+              </Text>
+            </Link>
           </Form>
         </Card>
       </div>
@@ -126,7 +132,8 @@ const LogingPage = () => {
         <div className="absolute bottom-6 right-6 bg-black/40 text-white p-6 rounded-xl max-w-lg backdrop-blur-xs">
           <h3 className="text-lg font-semibold">Your Luxury Escape Awaits</h3>
           <p className="text-md mt-2">
-            Seamlessly book exquisite hotels and experience hospitality redefined
+            Seamlessly book exquisite hotels and experience hospitality
+            redefined
           </p>
         </div>
         <div className="absolute "></div>
